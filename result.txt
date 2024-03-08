@@ -1,0 +1,1140 @@
+Init
+SetupOpExecs
+
+Node Index: 0
+Input Node Index: 0
+Node Name: data
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 1
+Input Node Index: 1
+Node Name: bn_data_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 2
+Input Node Index: 2
+Node Name: bn_data_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 3
+Input Node Index: 3
+Node Name: bn_data_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 4
+Input Node Index: 4
+Node Name: bn_data_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 5
+Input Node Index: 5
+Node Name: conv0_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 6
+Input Node Index: 6
+Node Name: bn0_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 7
+Input Node Index: 7
+Node Name: bn0_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 8
+Input Node Index: 8
+Node Name: bn0_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 9
+Input Node Index: 9
+Node Name: bn0_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 10
+Input Node Index: 10
+Node Name: stage1_unit1_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 11
+Input Node Index: 11
+Node Name: stage1_unit1_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 12
+Input Node Index: 12
+Node Name: stage1_unit1_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 13
+Input Node Index: 13
+Node Name: stage1_unit1_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 14
+Input Node Index: 14
+Node Name: stage1_unit1_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 15
+Input Node Index: 15
+Node Name: stage1_unit1_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 16
+Input Node Index: 16
+Node Name: stage1_unit1_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 17
+Input Node Index: 17
+Node Name: stage1_unit1_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 18
+Input Node Index: 18
+Node Name: stage1_unit1_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 19
+Input Node Index: 19
+Node Name: stage1_unit1_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 20
+Input Node Index: 20
+Node Name: stage1_unit1_sc_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 21
+Input Node Index: 21
+Node Name: stage1_unit2_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 22
+Input Node Index: 22
+Node Name: stage1_unit2_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 23
+Input Node Index: 23
+Node Name: stage1_unit2_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 24
+Input Node Index: 24
+Node Name: stage1_unit2_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 25
+Input Node Index: 25
+Node Name: stage1_unit2_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 26
+Input Node Index: 26
+Node Name: stage1_unit2_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 27
+Input Node Index: 27
+Node Name: stage1_unit2_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 28
+Input Node Index: 28
+Node Name: stage1_unit2_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 29
+Input Node Index: 29
+Node Name: stage1_unit2_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 30
+Input Node Index: 30
+Node Name: stage1_unit2_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 31
+Input Node Index: 31
+Node Name: stage2_unit1_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 32
+Input Node Index: 32
+Node Name: stage2_unit1_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 33
+Input Node Index: 33
+Node Name: stage2_unit1_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 34
+Input Node Index: 34
+Node Name: stage2_unit1_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 35
+Input Node Index: 35
+Node Name: stage2_unit1_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 36
+Input Node Index: 36
+Node Name: stage2_unit1_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 37
+Input Node Index: 37
+Node Name: stage2_unit1_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 38
+Input Node Index: 38
+Node Name: stage2_unit1_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 39
+Input Node Index: 39
+Node Name: stage2_unit1_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 40
+Input Node Index: 40
+Node Name: stage2_unit1_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 41
+Input Node Index: 41
+Node Name: stage2_unit1_sc_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 42
+Input Node Index: 42
+Node Name: stage2_unit2_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 43
+Input Node Index: 43
+Node Name: stage2_unit2_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 44
+Input Node Index: 44
+Node Name: stage2_unit2_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 45
+Input Node Index: 45
+Node Name: stage2_unit2_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 46
+Input Node Index: 46
+Node Name: stage2_unit2_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 47
+Input Node Index: 47
+Node Name: stage2_unit2_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 48
+Input Node Index: 48
+Node Name: stage2_unit2_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 49
+Input Node Index: 49
+Node Name: stage2_unit2_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 50
+Input Node Index: 50
+Node Name: stage2_unit2_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 51
+Input Node Index: 51
+Node Name: stage2_unit2_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 52
+Input Node Index: 52
+Node Name: stage3_unit1_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 53
+Input Node Index: 53
+Node Name: stage3_unit1_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 54
+Input Node Index: 54
+Node Name: stage3_unit1_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 55
+Input Node Index: 55
+Node Name: stage3_unit1_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 56
+Input Node Index: 56
+Node Name: stage3_unit1_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 57
+Input Node Index: 57
+Node Name: stage3_unit1_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 58
+Input Node Index: 58
+Node Name: stage3_unit1_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 59
+Input Node Index: 59
+Node Name: stage3_unit1_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 60
+Input Node Index: 60
+Node Name: stage3_unit1_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 61
+Input Node Index: 61
+Node Name: stage3_unit1_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 62
+Input Node Index: 62
+Node Name: stage3_unit1_sc_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 63
+Input Node Index: 63
+Node Name: stage3_unit2_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 64
+Input Node Index: 64
+Node Name: stage3_unit2_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 65
+Input Node Index: 65
+Node Name: stage3_unit2_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 66
+Input Node Index: 66
+Node Name: stage3_unit2_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 67
+Input Node Index: 67
+Node Name: stage3_unit2_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 68
+Input Node Index: 68
+Node Name: stage3_unit2_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 69
+Input Node Index: 69
+Node Name: stage3_unit2_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 70
+Input Node Index: 70
+Node Name: stage3_unit2_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 71
+Input Node Index: 71
+Node Name: stage3_unit2_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 72
+Input Node Index: 72
+Node Name: stage3_unit2_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 73
+Input Node Index: 73
+Node Name: stage4_unit1_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 74
+Input Node Index: 74
+Node Name: stage4_unit1_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 75
+Input Node Index: 75
+Node Name: stage4_unit1_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 76
+Input Node Index: 76
+Node Name: stage4_unit1_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 77
+Input Node Index: 77
+Node Name: stage4_unit1_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 78
+Input Node Index: 78
+Node Name: stage4_unit1_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 79
+Input Node Index: 79
+Node Name: stage4_unit1_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 80
+Input Node Index: 80
+Node Name: stage4_unit1_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 81
+Input Node Index: 81
+Node Name: stage4_unit1_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 82
+Input Node Index: 82
+Node Name: stage4_unit1_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 83
+Input Node Index: 83
+Node Name: stage4_unit1_sc_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 84
+Input Node Index: 84
+Node Name: stage4_unit2_bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 85
+Input Node Index: 85
+Node Name: stage4_unit2_bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 86
+Input Node Index: 86
+Node Name: stage4_unit2_bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 87
+Input Node Index: 87
+Node Name: stage4_unit2_bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 88
+Input Node Index: 88
+Node Name: stage4_unit2_conv1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 89
+Input Node Index: 89
+Node Name: stage4_unit2_bn2_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 90
+Input Node Index: 90
+Node Name: stage4_unit2_bn2_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 91
+Input Node Index: 91
+Node Name: stage4_unit2_bn2_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 92
+Input Node Index: 92
+Node Name: stage4_unit2_bn2_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 93
+Input Node Index: 93
+Node Name: stage4_unit2_conv2_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 94
+Input Node Index: 94
+Node Name: bn1_gamma
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 95
+Input Node Index: 95
+Node Name: bn1_beta
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 96
+Input Node Index: 96
+Node Name: bn1_moving_mean
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 97
+Input Node Index: 97
+Node Name: bn1_moving_var
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 98
+Input Node Index: 98
+Node Name: fc1_weight
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 99
+Input Node Index: 99
+Node Name: fc1_bias
+Function Name: 
+Number of Inputs: 2759060480
+Flatten Data: 2293284928
+
+Node Index: 100
+Node Name: tvmgen_default_fused_add_rsqrt_expand_dims_multiply_negative_multiply_add_expand_dims_add
+Function Name: tvmgen_default_fused_add_rsqrt_expand_dims_multiply_negative_multiply_add_expand_dims_add
+Number of Inputs: 4
+Flatten Data: 0
+100 / eid : 4
+100 / eid : 0
+100 / eid : 3
+100 / eid : 2
+
+Node Index: 101
+Node Name: tvmgen_default_fused_add_rsqrt_multiply
+Function Name: tvmgen_default_fused_add_rsqrt_multiply
+Number of Inputs: 2
+Flatten Data: 0
+101 / eid : 9
+101 / eid : 6
+
+Node Index: 102
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e_
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e_
+Number of Inputs: 5
+Flatten Data: 0
+102 / eid : 100
+102 / eid : 5
+102 / eid : 101
+102 / eid : 8
+102 / eid : 7
+
+Node Index: 103
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_1
+Function Name: tvmgen_default_fused_add_rsqrt_multiply
+Number of Inputs: 2
+Flatten Data: 0
+103 / eid : 13
+103 / eid : 10
+
+Node Index: 104
+Node Name: tvmgen_default_fused_nn_max_pool2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6fe36f9383d886f0_
+Function Name: tvmgen_default_fused_nn_max_pool2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6fe36f9383d886f0_
+Number of Inputs: 4
+Flatten Data: 0
+104 / eid : 102
+104 / eid : 103
+104 / eid : 12
+104 / eid : 11
+
+Node Index: 105
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_2
+Function Name: tvmgen_default_fused_add_rsqrt_multiply
+Number of Inputs: 2
+Flatten Data: 0
+105 / eid : 18
+105 / eid : 15
+
+Node Index: 106
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__1
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__1
+Number of Inputs: 5
+Flatten Data: 0
+106 / eid : 104
+106 / eid : 14
+106 / eid : 105
+106 / eid : 17
+106 / eid : 16
+
+Node Index: 107
+Node Name: tvmgen_default_fused_nn_conv2d
+Function Name: tvmgen_default_fused_nn_conv2d
+Number of Inputs: 2
+Flatten Data: 0
+107 / eid : 104
+107 / eid : 20
+
+Node Index: 108
+Node Name: tvmgen_default_fused_nn_conv2d_add
+Function Name: tvmgen_default_fused_nn_conv2d_add
+Number of Inputs: 3
+Flatten Data: 0
+108 / eid : 106
+108 / eid : 19
+108 / eid : 107
+
+Node Index: 109
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394_
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394_
+Number of Inputs: 5
+Flatten Data: 0
+109 / eid : 24
+109 / eid : 21
+109 / eid : 108
+109 / eid : 23
+109 / eid : 22
+
+Node Index: 110
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_3
+Function Name: tvmgen_default_fused_add_rsqrt_multiply
+Number of Inputs: 2
+Flatten Data: 0
+110 / eid : 29
+110 / eid : 26
+
+Node Index: 111
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__1_1
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__1
+Number of Inputs: 5
+Flatten Data: 0
+111 / eid : 109
+111 / eid : 25
+111 / eid : 110
+111 / eid : 28
+111 / eid : 27
+
+Node Index: 112
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_4
+Function Name: tvmgen_default_fused_add_rsqrt_multiply
+Number of Inputs: 2
+Flatten Data: 0
+112 / eid : 34
+112 / eid : 31
+
+Node Index: 113
+Node Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a_
+Function Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a_
+Number of Inputs: 6
+Flatten Data: 0
+113 / eid : 111
+113 / eid : 30
+113 / eid : 108
+113 / eid : 112
+113 / eid : 33
+113 / eid : 32
+
+Node Index: 114
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_1_1
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_1
+Number of Inputs: 2
+Flatten Data: 0
+114 / eid : 39
+114 / eid : 36
+
+Node Index: 115
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__2
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__2
+Number of Inputs: 5
+Flatten Data: 0
+115 / eid : 113
+115 / eid : 35
+115 / eid : 114
+115 / eid : 38
+115 / eid : 37
+
+Node Index: 116
+Node Name: tvmgen_default_fused_nn_conv2d_1
+Function Name: tvmgen_default_fused_nn_conv2d_1
+Number of Inputs: 2
+Flatten Data: 0
+116 / eid : 113
+116 / eid : 41
+
+Node Index: 117
+Node Name: tvmgen_default_fused_nn_conv2d_add_1
+Function Name: tvmgen_default_fused_nn_conv2d_add_1
+Number of Inputs: 3
+Flatten Data: 0
+117 / eid : 115
+117 / eid : 40
+117 / eid : 116
+
+Node Index: 118
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394__1
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394__1
+Number of Inputs: 5
+Flatten Data: 0
+118 / eid : 45
+118 / eid : 42
+118 / eid : 117
+118 / eid : 44
+118 / eid : 43
+
+Node Index: 119
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_1_2
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_1
+Number of Inputs: 2
+Flatten Data: 0
+119 / eid : 50
+119 / eid : 47
+
+Node Index: 120
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__3
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__3
+Number of Inputs: 5
+Flatten Data: 0
+120 / eid : 118
+120 / eid : 46
+120 / eid : 119
+120 / eid : 49
+120 / eid : 48
+
+Node Index: 121
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_1_3
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_1
+Number of Inputs: 2
+Flatten Data: 0
+121 / eid : 55
+121 / eid : 52
+
+Node Index: 122
+Node Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a__1
+Function Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a__1
+Number of Inputs: 6
+Flatten Data: 0
+122 / eid : 120
+122 / eid : 51
+122 / eid : 117
+122 / eid : 121
+122 / eid : 54
+122 / eid : 53
+
+Node Index: 123
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_2_1
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_2
+Number of Inputs: 2
+Flatten Data: 0
+123 / eid : 60
+123 / eid : 57
+
+Node Index: 124
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__4
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__4
+Number of Inputs: 5
+Flatten Data: 0
+124 / eid : 122
+124 / eid : 56
+124 / eid : 123
+124 / eid : 59
+124 / eid : 58
+
+Node Index: 125
+Node Name: tvmgen_default_fused_nn_conv2d_2
+Function Name: tvmgen_default_fused_nn_conv2d_2
+Number of Inputs: 2
+Flatten Data: 0
+125 / eid : 122
+125 / eid : 62
+
+Node Index: 126
+Node Name: tvmgen_default_fused_nn_conv2d_add_2
+Function Name: tvmgen_default_fused_nn_conv2d_add_2
+Number of Inputs: 3
+Flatten Data: 0
+126 / eid : 124
+126 / eid : 61
+126 / eid : 125
+
+Node Index: 127
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394__2
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394__2
+Number of Inputs: 5
+Flatten Data: 0
+127 / eid : 66
+127 / eid : 63
+127 / eid : 126
+127 / eid : 65
+127 / eid : 64
+
+Node Index: 128
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_2_2
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_2
+Number of Inputs: 2
+Flatten Data: 0
+128 / eid : 71
+128 / eid : 68
+
+Node Index: 129
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__5
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__5
+Number of Inputs: 5
+Flatten Data: 0
+129 / eid : 127
+129 / eid : 67
+129 / eid : 128
+129 / eid : 70
+129 / eid : 69
+
+Node Index: 130
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_2_3
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_2
+Number of Inputs: 2
+Flatten Data: 0
+130 / eid : 76
+130 / eid : 73
+
+Node Index: 131
+Node Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a__2
+Function Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a__2
+Number of Inputs: 6
+Flatten Data: 0
+131 / eid : 129
+131 / eid : 72
+131 / eid : 126
+131 / eid : 130
+131 / eid : 75
+131 / eid : 74
+
+Node Index: 132
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_3_1
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_3
+Number of Inputs: 2
+Flatten Data: 0
+132 / eid : 81
+132 / eid : 78
+
+Node Index: 133
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__6
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__6
+Number of Inputs: 5
+Flatten Data: 0
+133 / eid : 131
+133 / eid : 77
+133 / eid : 132
+133 / eid : 80
+133 / eid : 79
+
+Node Index: 134
+Node Name: tvmgen_default_fused_nn_conv2d_3
+Function Name: tvmgen_default_fused_nn_conv2d_3
+Number of Inputs: 2
+Flatten Data: 0
+134 / eid : 131
+134 / eid : 83
+
+Node Index: 135
+Node Name: tvmgen_default_fused_nn_conv2d_add_3
+Function Name: tvmgen_default_fused_nn_conv2d_add_3
+Number of Inputs: 3
+Flatten Data: 0
+135 / eid : 133
+135 / eid : 82
+135 / eid : 134
+
+Node Index: 136
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394__3
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_expand_dims_multiply_negative_multiply_add_expand_dims__7c5c320731f84394__3
+Number of Inputs: 5
+Flatten Data: 0
+136 / eid : 87
+136 / eid : 84
+136 / eid : 135
+136 / eid : 86
+136 / eid : 85
+
+Node Index: 137
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_3_2
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_3
+Number of Inputs: 2
+Flatten Data: 0
+137 / eid : 92
+137 / eid : 89
+
+Node Index: 138
+Node Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__7
+Function Name: tvmgen_default_fused_nn_conv2d_expand_dims_multiply_negative_multiply_add_expand_dims_add_nn_re_e0c4d8ff40082f0e__7
+Number of Inputs: 5
+Flatten Data: 0
+138 / eid : 136
+138 / eid : 88
+138 / eid : 137
+138 / eid : 91
+138 / eid : 90
+
+Node Index: 139
+Node Name: tvmgen_default_fused_add_rsqrt_multiply_3_3
+Function Name: tvmgen_default_fused_add_rsqrt_multiply_3
+Number of Inputs: 2
+Flatten Data: 0
+139 / eid : 97
+139 / eid : 94
+
+Node Index: 140
+Node Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a__3
+Function Name: tvmgen_default_fused_nn_conv2d_add_expand_dims_multiply_negative_multiply_add_expand_dims_add_n_6d54b3a66274359a__3
+Number of Inputs: 6
+Flatten Data: 0
+140 / eid : 138
+140 / eid : 93
+140 / eid : 135
+140 / eid : 139
+140 / eid : 96
+140 / eid : 95
+
+Node Index: 141
+Node Name: tvmgen_default_fused_nn_global_avg_pool2d
+Function Name: tvmgen_default_fused_nn_global_avg_pool2d
+Number of Inputs: 1
+Flatten Data: 0
+141 / eid : 140
+
+Node Index: 142
+Node Name: reshape_nop
+Function Name: __nop
+Number of Inputs: 1
+Flatten Data: 0
+142 / eid : 141
+
+Node Index: 143
+Node Name: tvmgen_default_fused_nn_dense_nn_bias_add
+Function Name: tvmgen_default_fused_nn_dense_nn_bias_add
+Number of Inputs: 3
+Flatten Data: 0
+143 / eid : 142
+143 / eid : 98
+143 / eid : 99
+
+Node Index: 144
+Node Name: tvmgen_default_fused_nn_softmax
+Function Name: tvmgen_default_fused_nn_softmax
+Number of Inputs: 1
+Flatten Data: 0
+144 / eid : 143
+
+LoadParams
+lib and params exists
+lib load complete
+params load complete
+
+create module
+success module
+
+load data, params
+success data
+success params
+
+start run
+success run
+
+result shape: (1, 1000)
