@@ -61,12 +61,32 @@ constexpr auto Is2DStorage = IsTextureStorage;
 void GraphExecutor::Run() {
   // setup the array and requirements.
   for (size_t i = 0; i < op_execs_.size(); ++i) {
-    // std::cout << i;
+    if (op_execs_[i]) {op_execs_[i]();}
+  }
+}
+
+void GraphExecutor::LoadRun(const std::string& param_blob) {
+  dmlc::MemoryStringStream strm(const_cast<std::string*>(&param_blob));
+  this->LoadRun(&strm);
+}
+
+void GraphExecutor::LoadRun(dmlc::Stream* strm) {
+  // setup the array and requirements.
+  Map<String, NDArray> params = ::tvm::runtime::LoadParams(strm);
+  for (size_t i = 0; i < op_execs_.size(); ++i) {
     if (op_execs_[i]) {
-      // std::cout << " : run" << std::endl;
+      const auto& inode = nodes_[i];
+      for (const auto& e : inode.inputs) {
+        uint32_t eid = this->entry_id(e);
+        for (auto& p : params) {
+          int in_idx = GetInputIndex(p.first);
+          if (in_idx < 0) continue;
+          if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
+            data_entry_[eid].CopyFrom(p.second);
+          }
+        }
+      }
       op_execs_[i]();
-    } else {
-      // std::cout << std::endl;
     }
   }
 }
@@ -319,15 +339,14 @@ void GraphExecutor::LoadParams(dmlc::Stream* strm) {
     // p.first : parameter 이름, GetInputIndex로 이름으로 input_nodes_의 인덱스 따옴
     param_names_.insert(p.first);
     int in_idx = GetInputIndex(p.first);
-    // printf("%s  %d\n", p.first.c_str(), in_idx);
     if (in_idx < 0) continue;
     uint32_t eid = this->entry_id(input_nodes_[in_idx], 0);
-    // printf("%s / %d / %u / %u\n", p.first.c_str(), in_idx, input_nodes_[in_idx], eid);
     data_entry_[eid].CopyFrom(p.second);
   }
 }
 
 void GraphExecutor::ShareParams(const GraphExecutor& other, dmlc::Stream* strm) {
+  std::cout << "ShareParams" << std::endl;
   uint64_t header, reserved;
   ICHECK(strm->Read(&header)) << "Invalid parameters file format";
   ICHECK(header == kTVMNDArrayListMagic) << "Invalid parameters file format";
@@ -391,6 +410,8 @@ void GraphExecutor::DefaultLookupLinkedParam(TVMArgs args, TVMRetValue* rv) {
 
 void GraphExecutor::SetupStorage() {
   // Grab saved optimization plan from graph.
+  std::cout << "SetupStorage" << std::endl;
+
   std::vector<DLDataType> vtype;
   for (const std::string& s_type : attrs_.dltype) {
     vtype.push_back(tvm::runtime::String2DLDataType(s_type));
@@ -506,7 +527,7 @@ void GraphExecutor::SetupStorage() {
 }
 
 void GraphExecutor::SetupOpExecs() {
-  std::cout << "SetupOpExecs" << std::endl << std::endl;
+  std::cout << "SetupOpExecs" << std::endl;
   op_execs_.resize(this->GetNumOfNodes());
   input_dltensors_.resize(num_node_entries());
   output_dltensors_.resize(num_node_entries());
@@ -535,26 +556,26 @@ void GraphExecutor::SetupOpExecs() {
     // 연산 노드의 node
     const auto& inode = nodes_[nid];
 
-    std::cout << "Node Index: " << nid << std::endl;
-    if (nid < input_nodes_.size()) {std::cout << "Input Node Index: " << input_nodes_[nid] << std::endl;}
-    std::cout << "Node Name: " << inode.name << std::endl;
-    std::cout << "Function Name: " << inode.param.func_name << std::endl;
-    std::cout << "Number of Inputs: " << inode.param.num_inputs << std::endl;
-    std::cout << "Flatten Data: " << inode.param.flatten_data << std::endl;
+    // std::cout << "Node Index: " << nid << std::endl;
+    // if (nid < input_nodes_.size()) {std::cout << "Input Node Index: " << input_nodes_[nid] << std::endl;}
+    // std::cout << "Node Name: " << inode.name << std::endl;
+    // std::cout << "Function Name: " << inode.param.func_name << std::endl;
+    // std::cout << "Number of Inputs: " << inode.param.num_inputs << std::endl;
+    // std::cout << "Flatten Data: " << inode.param.flatten_data << std::endl;
 
     if (inode.op_type == "null") {
-      std::cout << std::endl;
+      // std::cout << std::endl;
       continue;
     }
     std::vector<DLTensor*> args;
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
-      std::cout << nid << " / eid : " << eid << std::endl;
+      // std::cout << nid << " / eid : " << eid << std::endl;
       // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
       // push_back은 vector 끝에 요소 추가하는 함수
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
     }
-    std::cout << std::endl;
+    // std::cout << std::endl;
     for (uint32_t index = 0; index < inode.param.num_outputs; ++index) {
       uint32_t eid = this->entry_id(nid, index);
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
@@ -720,6 +741,10 @@ PackedFunc GraphExecutor::GetFunction(const String& name, const ObjectPtr<Object
         [sptr_to_self, this](TVMArgs args, TVMRetValue* rv) { *rv = this->NumInputs(); });
   } else if (name == "run") {
     return PackedFunc([sptr_to_self, this](TVMArgs args, TVMRetValue* rv) { this->Run(); });
+  } else if (name == "load_run") {
+    return PackedFunc([sptr_to_self, this](TVMArgs args, TVMRetValue* rv) {
+      this->LoadRun(args[0].operator std::string());
+    });
   } else if (name == "run_from_inputs") {
     return PackedFunc(
         [sptr_to_self, this](TVMArgs args, TVMRetValue* rv) {

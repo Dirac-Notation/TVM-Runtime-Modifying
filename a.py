@@ -55,6 +55,7 @@ else:
 
 # create random input
 dev = tvm.cuda()
+np.random.seed(0)
 data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
 
 # create module
@@ -68,18 +69,28 @@ print()
 print("load data, params")
 module.set_input(0, data)
 print("success data")
-module.load_params(serialized_byte_array)
-print("success params")
 
-# run
-print()
-print("start run")
-module.run()
-print("success run")
+mode = True
+
+if mode:
+    # run
+    print()
+    print("start run")
+    module.load_run(serialized_byte_array)
+    print("success run")
+else:
+    module.load_params(serialized_byte_array)
+    print("success params")
+
+    # run
+    print()
+    print("start run")
+    module.run()
+    print("success run")
 
 # get output
 out = module.get_output(0, tvm.nd.empty(out_shape)).numpy()
 
 # Print first 10 elements of output
 print()
-print(f"result shape: {out.shape}")
+print(f"result: {out[0,:10]}")

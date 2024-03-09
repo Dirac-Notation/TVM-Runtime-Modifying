@@ -93,6 +93,9 @@ class TVM_DLL GraphExecutor : public ModuleNode {
   const char* type_key() const final { return "GraphExecutor"; }
   void Run();
 
+  void LoadRun(const std::string& param_blob);
+  void LoadRun(dmlc::Stream* strm);
+
   /*! \brief Get the property of the runtime module .*/
   int GetPropertyMask() const final { return ModulePropertyMask::kRunnable; }
 
