@@ -36,7 +36,9 @@ def vector_pruning(tensor: torch.tensor, vector_size, vector_window, remain_vect
 
     idx, _ = torch.sort(idx, dim=-1)
 
-    result = torch.gather(vec, 2, idx)
+    idx = idx.unsqueeze(1). expand(-1, vector_size, -1)
+
+    result = torch.gather(vec, -1, idx)
     result = result.view(*new_shape)
 
     return result
@@ -57,13 +59,18 @@ def vector_pruning(tensor: torch.tensor, vector_size, vector_window, remain_vect
 
 dim = 1024
 A = torch.randn((dim, dim))
-B = vector_pruning(NM_pruning(A, True), 16, 8, 4)
-C = NM_pruning(vector_pruning(A, 16, 8, 4))
+vector_size = 8
+B = NM_pruning(vector_pruning(NM_pruning(A, True), vector_size, 8, 4))
+C = NM_pruning(vector_pruning(A, vector_size, 8, 4))
 
+print(B.numel())
 print(B.norm())
+print((abs(B)<0.3).sum())
 print(B[:8,:8])
 
+print(C.numel())
 print(C.norm())
+print((abs(C)<0.3).sum())
 print(C[:8,:8])
 
 # A = torch.randn((8, 16))
