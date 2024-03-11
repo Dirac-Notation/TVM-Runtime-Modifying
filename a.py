@@ -52,7 +52,7 @@ else:
     
     # viz = relay_viz.RelayVisualizer(mod)
     # viz.render()
-
+exit()
 # create random input
 dev = tvm.cuda()
 np.random.seed(0)
