@@ -626,6 +626,7 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     const TVMOpParam& param, const std::vector<DLTensor*>& args) {
   std::shared_ptr<GraphExecutor::OpArgs> arg_ptr = std::make_shared<GraphExecutor::OpArgs>();
   // setup address.
+  std::cout << "asdfasdfsadf" << std::endl;
   arg_ptr->args = args;
   if (param.flatten_data) {
     arg_ptr->shape_data.resize(arg_ptr->args.size());
