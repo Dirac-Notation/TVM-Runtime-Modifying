@@ -528,7 +528,6 @@ void GraphExecutor::SetupStorage() {
 
 void GraphExecutor::SetupOpExecs() {
   std::cout << "SetupOpExecs" << std::endl;
-  std::cout << "data_entry_" << data_entry_.size() << std::endl;
   op_execs_.resize(this->GetNumOfNodes());
   input_dltensors_.resize(num_node_entries());
   output_dltensors_.resize(num_node_entries());
