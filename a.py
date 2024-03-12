@@ -61,7 +61,11 @@ data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
 # create module
 print()
 print("create module")
-module = graph_executor.GraphModule(lib["default"](dev))
+tmp1 = lib["default"]
+print("Check")
+tmp2 = tmp1(dev)
+print("Check")
+module = graph_executor.GraphModule(tmp2)
 print("success module")
 
 # set input and parameters
