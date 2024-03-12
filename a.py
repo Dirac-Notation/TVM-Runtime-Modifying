@@ -19,7 +19,7 @@ out_shape = (batch_size, num_class)
 path_so = "compiled_lib.so"
 path_params = "params.json"
 
-if os.path.exists(path_so) and os.path.exists(path_params) and False:
+if os.path.exists(path_so) and os.path.exists(path_params):
     print("lib and params exists")
     lib = tvm.runtime.load_module(path_so)
     print("lib load complete")
@@ -52,7 +52,7 @@ else:
     
     # viz = relay_viz.RelayVisualizer(mod)
     # viz.render()
-exit()
+
 # create random input
 dev = tvm.cuda()
 np.random.seed(0)

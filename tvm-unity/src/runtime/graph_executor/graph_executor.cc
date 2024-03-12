@@ -86,6 +86,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           }
         }
       }
+      std::cout << "node_id: " << i << std::endl;
       op_execs_[i]();
     }
   }
@@ -584,6 +585,7 @@ void GraphExecutor::SetupOpExecs() {
 
     // std::cout << nid << " : " << inode.param.num_inputs << std::endl;
     std::shared_ptr<OpArgs> op_args = nullptr;
+    // args는 input, output data_entry_ 위치
     std::tie(op_execs_[nid], op_args) = CreateTVMOp(inode.param, args);
 
     for (size_t i = 0; i < inode.inputs.size(); i++) {
@@ -626,7 +628,6 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     const TVMOpParam& param, const std::vector<DLTensor*>& args) {
   std::shared_ptr<GraphExecutor::OpArgs> arg_ptr = std::make_shared<GraphExecutor::OpArgs>();
   // setup address.
-  std::cout << "asdfasdfsadf" << std::endl;
   arg_ptr->args = args;
   if (param.flatten_data) {
     arg_ptr->shape_data.resize(arg_ptr->args.size());
@@ -638,13 +639,15 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     arg_ptr->arg_values.push_back(v);
     arg_ptr->arg_tcodes.push_back(kTVMDLTensorHandle);
     if (param.flatten_data) {
+      // 총 요소 개수 구함 (3,2,1) -> 6 곱해서
       arg_ptr->shape_data[i] =
           std::accumulate(t->shape, t->shape + t->ndim, 1, std::multiplies<int64_t>());
+      // 차원 1개의 1차원으로 만들어버리네?
       t->ndim = 1;
       t->shape = &(arg_ptr->shape_data[i]);
     }
   }
-  // std::cout << param.func_name << std::endl;
+
   if (param.func_name == "__nop") {
     return {[]() {}, arg_ptr};
   } else if (param.func_name == "__copy") {
@@ -668,6 +671,7 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     TVMRetValue rv;
     TVMArgs targs(arg_ptr->arg_values.data(), arg_ptr->arg_tcodes.data(),
                   static_cast<int>(arg_ptr->arg_values.size()));
+    std::cout << "fexec" << std::endl;
     pf.CallPacked(targs, &rv);
   };
   return {fexec, arg_ptr};
