@@ -663,6 +663,8 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
 
   // Get compiled function from the module that contains both host and device
   // code.
+  // module_이 operation 코드인데, 거기에 데이터를 넣어서 실행시키는 람다함수를 보내는 식이구나
+  // 넣는 데이터가 어떤 식인지만 파악하자
   tvm::runtime::PackedFunc pf = module_.GetFunction(param.func_name, true);
   ICHECK(pf != nullptr) << "no such function in module: " << param.func_name;
 
