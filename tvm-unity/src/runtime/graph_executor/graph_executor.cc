@@ -86,7 +86,6 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           }
         }
       }
-      std::cout << "node_id: " << i << std::endl;
       op_execs_[i]();
     }
   }
@@ -671,7 +670,6 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     TVMRetValue rv;
     TVMArgs targs(arg_ptr->arg_values.data(), arg_ptr->arg_tcodes.data(),
                   static_cast<int>(arg_ptr->arg_values.size()));
-    std::cout << "fexec" << std::endl;
     pf.CallPacked(targs, &rv);
   };
   return {fexec, arg_ptr};
