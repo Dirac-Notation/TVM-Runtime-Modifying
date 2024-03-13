@@ -570,7 +570,7 @@ void GraphExecutor::SetupOpExecs() {
     std::vector<DLTensor*> args;
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
-      // std::cout << nid << " / eid : " << eid << std::endl;
+      std::cout << nid << " / eid : " << eid << std::endl;
       // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
       // push_back은 vector 끝에 요소 추가하는 함수
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
@@ -638,7 +638,7 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     v.v_handle = t;
     arg_ptr->arg_values.push_back(v);
     // kTVMDLTensorHandle → 7
-    arg_ptr->arg_tcodes.push_back(7);
+    arg_ptr->arg_tcodes.push_back(kTVMDLTensorHandle);
     // 연산들은 flatten data가 없어서 밑에 실행이 안 되는구나
     if (param.flatten_data) {
       // 총 요소 개수 구함 (3,2,1) -> 6 곱해서
@@ -673,6 +673,7 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
 
   auto fexec = [arg_ptr, pf]() {
     TVMRetValue rv;
+    // .data()는 첫 포인터 가르킴, tcodes는 어떤 역할인지 가늠이 안 가네 → FFI에서 사용되는 인자 유형 코드, 팩함수 호출 할 때 보고 판단함
     TVMArgs targs(arg_ptr->arg_values.data(), arg_ptr->arg_tcodes.data(),
                   static_cast<int>(arg_ptr->arg_values.size()));
     pf.CallPacked(targs, &rv);
