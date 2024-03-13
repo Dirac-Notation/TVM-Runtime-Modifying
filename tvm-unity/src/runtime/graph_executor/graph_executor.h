@@ -429,6 +429,8 @@ class TVM_DLL GraphExecutor : public ModuleNode {
   static void LinkedNDArrayDeleter(Object* container);
   /*! \brief Setup the temporal storage */
   void SetupStorage();
+  /*! \brief Testing */
+  void SetupPageTable();
   /*! \brief Setup the executors. */
   void SetupOpExecs();
   /*!

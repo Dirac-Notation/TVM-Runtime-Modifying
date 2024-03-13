@@ -115,6 +115,7 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
         [this](TVMArgs args, TVMRetValue* rv) { this->DefaultLookupLinkedParam(args, rv); });
   }
   this->SetupStorage();
+  this->SetupPageTable();
   this->SetupOpExecs();
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
@@ -526,9 +527,14 @@ void GraphExecutor::SetupStorage() {
   }
 }
 
-// void GraphExecutor::SetupPageTable() {
+void GraphExecutor::SetupPageTable() {
+  uint32_t max_input = 0;
+  for (size_t i = 0; i < nodes_.size(); i++) {
+    if (nodes_[i].param.num_inputs > max_input) { max_input = nodes_[i].param.num_inputs; }
+  }
 
-// }
+  std::cout << "max_input: " << max_input << std::endl;
+}
 
 void GraphExecutor::SetupOpExecs() {
   std::cout << "SetupOpExecs" << std::endl;
@@ -578,6 +584,7 @@ void GraphExecutor::SetupOpExecs() {
     // args는 input, output data_entry_ 위치
     std::tie(op_execs_[nid], op_args) = CreateTVMOp(inode.param, args);
 
+    // dltensors 얘네 없어도 잘 돌아가는데 뭐지? 왜 있는 거지..
     // for (size_t i = 0; i < inode.inputs.size(); i++) {
     //   uint32_t input_eid = this->entry_id(inode.inputs[i]);
     //   // check if op input is model input
