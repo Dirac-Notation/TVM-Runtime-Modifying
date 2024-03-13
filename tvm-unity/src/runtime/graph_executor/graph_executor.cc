@@ -630,6 +630,7 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
   arg_ptr->args = args;
   std::cout << param.func_name << ": " << param.flatten_data << std::endl;
   if (param.flatten_data) {
+    std::cout << "Check" << std::endl;
     arg_ptr->shape_data.resize(arg_ptr->args.size());
   }
   for (size_t i = 0; i < arg_ptr->args.size(); ++i) {
