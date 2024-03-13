@@ -551,45 +551,32 @@ void GraphExecutor::SetupOpExecs() {
   }
 
   // setup the array and requirements.
-  // GetNumOfNodes : 145
   for (uint32_t nid = 0; nid < this->GetNumOfNodes(); ++nid) {
     // 연산 노드의 node
     const auto& inode = nodes_[nid];
 
-    // std::cout << "Node Index: " << nid << std::endl;
-    // if (nid < input_nodes_.size()) {std::cout << "Input Node Index: " << input_nodes_[nid] << std::endl;}
-    // std::cout << "Node Name: " << inode.name << std::endl;
-    // std::cout << "Function Name: " << inode.param.func_name << std::endl;
-    // std::cout << "Number of Inputs: " << inode.param.num_inputs << std::endl;
-    // std::cout << "Flatten Data: " << inode.param.flatten_data << std::endl;
-
     if (inode.op_type == "null") {
-      // std::cout << std::endl;
       continue;
     }
     std::vector<DLTensor*> args;
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
-      std::cout << nid << " / eid : " << eid << " / name : " << nodes_[eid].name << std::endl;
       // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
       // push_back은 vector 끝에 요소 추가하는 함수
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
     }
-    // std::cout << std::endl;
     for (uint32_t index = 0; index < inode.param.num_outputs; ++index) {
       uint32_t eid = this->entry_id(nid, index);
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
     }
     ICHECK(inode.op_type == "tvm_op") << "Can only take tvm_op as op";
 
-    // std::cout << nid << " : " << inode.param.num_inputs << std::endl;
     std::shared_ptr<OpArgs> op_args = nullptr;
     // args는 input, output data_entry_ 위치
     std::tie(op_execs_[nid], op_args) = CreateTVMOp(inode.param, args);
 
     for (size_t i = 0; i < inode.inputs.size(); i++) {
       uint32_t input_eid = this->entry_id(inode.inputs[i]);
-      // std::cout << "nid : " << nid << " / " << "inode.inputs : " << inode.inputs[i].node_id << std::endl;
       // check if op input is model input
       if (input_node_eids.count(input_eid) > 0) {
         input_dltensors_[input_eid].push_back(
