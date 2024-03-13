@@ -570,7 +570,7 @@ void GraphExecutor::SetupOpExecs() {
     std::vector<DLTensor*> args;
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
-      std::cout << nid << " / eid : " << eid << std::endl;
+      std::cout << nid << " / eid : " << eid << " / name : " << inode.name << std::endl;
       // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
       // push_back은 vector 끝에 요소 추가하는 함수
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
