@@ -637,10 +637,10 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
     DLTensor* t = arg_ptr->args[i];
     v.v_handle = t;
     arg_ptr->arg_values.push_back(v);
-    arg_ptr->arg_tcodes.push_back(kTVMDLTensorHandle);
+    // kTVMDLTensorHandle → 7
+    arg_ptr->arg_tcodes.push_back(7);
     // 연산들은 flatten data가 없어서 밑에 실행이 안 되는구나
     if (param.flatten_data) {
-      std::cout << "Check" << std::endl;
       // 총 요소 개수 구함 (3,2,1) -> 6 곱해서
       arg_ptr->shape_data[i] =
           std::accumulate(t->shape, t->shape + t->ndim, 1, std::multiplies<int64_t>());
