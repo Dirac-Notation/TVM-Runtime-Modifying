@@ -628,18 +628,19 @@ std::pair<std::function<void()>, std::shared_ptr<GraphExecutor::OpArgs>> GraphEx
   std::shared_ptr<GraphExecutor::OpArgs> arg_ptr = std::make_shared<GraphExecutor::OpArgs>();
   // setup address.
   arg_ptr->args = args;
-  std::cout << param.func_name << ": " << param.flatten_data << std::endl;
   if (param.flatten_data) {
-    std::cout << "Check" << std::endl;
     arg_ptr->shape_data.resize(arg_ptr->args.size());
   }
   for (size_t i = 0; i < arg_ptr->args.size(); ++i) {
     TVMValue v;
+    // input, output DLTensor 포인터
     DLTensor* t = arg_ptr->args[i];
     v.v_handle = t;
     arg_ptr->arg_values.push_back(v);
     arg_ptr->arg_tcodes.push_back(kTVMDLTensorHandle);
+    // 연산들은 flatten data가 없어서 밑에 실행이 안 되는구나
     if (param.flatten_data) {
+      std::cout << "Check" << std::endl;
       // 총 요소 개수 구함 (3,2,1) -> 6 곱해서
       arg_ptr->shape_data[i] =
           std::accumulate(t->shape, t->shape + t->ndim, 1, std::multiplies<int64_t>());
