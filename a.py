@@ -61,6 +61,8 @@ data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
 # create module
 print()
 print("create module")
+# graph_executor_factory의 GetFunction name==module_name 이랑 연결되면서, GraphExecutor 만듦. GraphExecutor의 Init에서 Device 지정하는 듯
+# default로 부르는 팩함수 연결하고, 뒤에 디바이스 넣어서 팩함수 호출하는 형식
 tmp1 = lib["default"]
 print("Check")
 tmp2 = tmp1(dev)

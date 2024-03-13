@@ -526,8 +526,13 @@ void GraphExecutor::SetupStorage() {
   }
 }
 
+// void GraphExecutor::SetupPageTable() {
+
+// }
+
 void GraphExecutor::SetupOpExecs() {
   std::cout << "SetupOpExecs" << std::endl;
+
   op_execs_.resize(this->GetNumOfNodes());
   input_dltensors_.resize(num_node_entries());
   output_dltensors_.resize(num_node_entries());
@@ -538,7 +543,6 @@ void GraphExecutor::SetupOpExecs() {
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     uint32_t nid = input_nodes_[i];
     input_node_eids.insert(entry_id(nid, 0));
-    // printf("nid : %u / entry_id : %u\n", nid, entry_id(nid, 0));
     // 다 같음
   }
 
@@ -546,7 +550,6 @@ void GraphExecutor::SetupOpExecs() {
   std::unordered_set<uint32_t> output_node_eids;
   for (size_t i = 0; i < outputs_.size(); i++) {
     output_node_eids.insert(entry_id(outputs_[i]));
-    // printf("output_node_eids : %u\n", entry_id(outputs_[i]));
     // 1개
   }
 
@@ -575,29 +578,29 @@ void GraphExecutor::SetupOpExecs() {
     // args는 input, output data_entry_ 위치
     std::tie(op_execs_[nid], op_args) = CreateTVMOp(inode.param, args);
 
-    for (size_t i = 0; i < inode.inputs.size(); i++) {
-      uint32_t input_eid = this->entry_id(inode.inputs[i]);
-      // check if op input is model input
-      if (input_node_eids.count(input_eid) > 0) {
-        input_dltensors_[input_eid].push_back(
-            static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
+    // for (size_t i = 0; i < inode.inputs.size(); i++) {
+    //   uint32_t input_eid = this->entry_id(inode.inputs[i]);
+    //   // check if op input is model input
+    //   if (input_node_eids.count(input_eid) > 0) {
+    //     input_dltensors_[input_eid].push_back(
+    //         static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
 
-        // Data entry who has the same storage_id should also be pushed into "input_dltensors" and
-        // being able to be updated by "SetInputZeroCopy()". This is to handle the situation that a
-        // "relay.reshape" follows immediately after input and input dltensor and reshape's output
-        // dltensor point to the same data_entry.
-        auto storage_id = attrs_.storage_id[input_eid];
-        for (auto eid : sid_to_eid_[storage_id]) {
-          input_dltensors_[input_eid].push_back(
-              const_cast<DLTensor*>(data_entry_[eid].operator->()));
-        }
-      }
-      // check if any model output is the input of the op
-      if (output_node_eids.count(input_eid) > 0) {
-        both_output_opinput_dltensors_[input_eid].push_back(
-            static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
-      }
-    }
+    //     // Data entry who has the same storage_id should also be pushed into "input_dltensors" and
+    //     // being able to be updated by "SetInputZeroCopy()". This is to handle the situation that a
+    //     // "relay.reshape" follows immediately after input and input dltensor and reshape's output
+    //     // dltensor point to the same data_entry.
+    //     auto storage_id = attrs_.storage_id[input_eid];
+    //     for (auto eid : sid_to_eid_[storage_id]) {
+    //       input_dltensors_[input_eid].push_back(
+    //           const_cast<DLTensor*>(data_entry_[eid].operator->()));
+    //     }
+    //   }
+    //   // check if any model output is the input of the op
+    //   if (output_node_eids.count(input_eid) > 0) {
+    //     both_output_opinput_dltensors_[input_eid].push_back(
+    //         static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
+    //   }
+    // }
 
     for (uint32_t i = inode.inputs.size(); i < inode.inputs.size() + inode.param.num_outputs; ++i) {
       uint32_t output_eid = this->entry_id(nid, i - inode.inputs.size());

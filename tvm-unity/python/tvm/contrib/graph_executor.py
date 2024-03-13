@@ -151,7 +151,6 @@ class GraphModule(object):
     """
 
     def __init__(self, module):
-        print("__init__")
         self.module = module
         self._set_input = module["set_input"]
 
@@ -179,7 +178,6 @@ class GraphModule(object):
         self._get_num_inputs = module["get_num_inputs"]
         self._load_params = module["load_params"]
         self._share_params = module["share_params"]
-        print("__init__ end")
 
     def set_input(self, key=None, value=None, **params):
         """Set inputs to the module via kwargs
