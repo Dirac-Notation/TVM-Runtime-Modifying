@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo "Build Start"
-if cmake ./tvm-unity && cmake --build ./tvm-unity/build --parallel $(nproc); then
+cd ./tvm-unity/build
+if cmake .. && cmake --build . --parallel $(nproc); then
     echo "Build Complete"
 
     echo "=============== Git ==============="
@@ -14,3 +15,4 @@ if cmake ./tvm-unity && cmake --build ./tvm-unity/build --parallel $(nproc); the
 else
     echo "Build Failed"
 fi
+cd ../..
