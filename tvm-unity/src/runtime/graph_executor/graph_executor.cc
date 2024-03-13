@@ -530,7 +530,11 @@ void GraphExecutor::SetupStorage() {
 void GraphExecutor::SetupPageTable() {
   uint32_t max_input = 0;
   for (size_t i = 0; i < nodes_.size(); i++) {
-    if (nodes_[i].param.num_inputs > max_input) { max_input = nodes_[i].param.num_inputs; }
+    const auto& inode = nodes_[i];
+
+    if (inode.op_type == "null") { continue; }
+
+    if (inode.param.num_inputs > max_input) { max_input = inode.param.num_inputs; }
   }
 
   std::cout << "max_input: " << max_input << std::endl;
