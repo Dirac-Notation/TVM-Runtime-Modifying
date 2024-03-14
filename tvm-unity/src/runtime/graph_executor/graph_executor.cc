@@ -440,14 +440,17 @@ void GraphExecutor::SetupStorage() {
     }
     TVMRetValue lookup_rv;
     {
+      // shape_vec - 1/3/224/224 같이 데이터 모양들 
       std::vector<int64_t> shape_vec{attrs_.shape[i].begin(), attrs_.shape[i].end()};
       // for (const auto& as : shape_vec) {
       //   std::cout << as << " / ";
       // }
       // std::cout << std::endl;
+      // 정해진 크기의 DLTensor 만드는 것 같은데
       DLTensor template_tensor{nullptr,  Device{kDLCPU, 0}, static_cast<int>(shape_vec.size()),
                                vtype[i], shape_vec.data(),  nullptr,
                                0};
+      std::cout << "index[" << i << "]: " << static_cast<void*>(template_tensor.data) << std::endl;
       lookup_rv = lookup_linked_param_(module_, sid, &template_tensor, devices_[0]);
     }
     if (lookup_rv.type_code() != kTVMNullptr) {
@@ -459,7 +462,6 @@ void GraphExecutor::SetupStorage() {
 
     DLDataType t = vtype[i];
     if (!details::Is2DStorage(storage_scope)) {
-      std::cout << "not 2D: " << sid << std::endl;
       size_t size = 1;
       for (int64_t sz : attrs_.shape[i]) {
         size *= static_cast<size_t>(sz);
