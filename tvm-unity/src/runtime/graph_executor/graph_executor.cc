@@ -83,7 +83,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           if (in_idx < 0) continue;
           if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
             data_entry_[eid].CopyFrom(p.second);
-            std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
+            // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
           }
         }
       }
@@ -532,8 +532,9 @@ void GraphExecutor::SetupStorage() {
 
     ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
+    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) << std::endl;
     data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
-    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) <<std::endl;
+    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) << std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
