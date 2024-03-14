@@ -495,6 +495,7 @@ void GraphExecutor::SetupStorage() {
   }
 
   // Allocate the space.
+  int k = 0;
   for (const auto& pit : pool_entry) {
     // This for loop is very fast since there are usually only a couple of
     // devices available on the same hardware.
@@ -513,6 +514,8 @@ void GraphExecutor::SetupStorage() {
       if (!pit.scope.empty()) {
         mem_scope = String(pit.scope);
       }
+      std::cout << k << ": Check" << std::endl;
+      k += 1;
       storage_pool_.push_back(MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
                                   ->Empty(shape, pit.dtype, dev, mem_scope));
     }
@@ -532,9 +535,9 @@ void GraphExecutor::SetupStorage() {
 
     ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
-    // 여기까지는 data_entry_에 할당 안 됨
+    // 여기까지는 data_entry_에 할당 안 됨, storage_pool_이랑 data의 주소가 같다
     data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
-    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << static_cast<void*>(storage_pool_[storage_id]->data) << std::endl;
+    // std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << static_cast<void*>(storage_pool_[storage_id]->data) << std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
