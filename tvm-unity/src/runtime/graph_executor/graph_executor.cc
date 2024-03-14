@@ -430,7 +430,7 @@ void GraphExecutor::SetupStorage() {
     if (!attrs_.device_index.empty()) {
       device_type = attrs_.device_index[i];
     }
-    std::cout << "i: " << i << " / storage_id: " << storage_id << std::endl;
+    // std::cout << "i: " << i << " / storage_id: " << storage_id << std::endl;
     uint32_t sid = static_cast<uint32_t>(storage_id);
     if (sid >= pool_entry.size()) {
       pool_entry.resize(sid + 1, {-1, {0}, {}});
@@ -441,6 +441,10 @@ void GraphExecutor::SetupStorage() {
     TVMRetValue lookup_rv;
     {
       std::vector<int64_t> shape_vec{attrs_.shape[i].begin(), attrs_.shape[i].end()};
+      for (const auto& as : shape_vec) {
+        std::cout << as << " / ";
+      }
+      std::cout << std::endl;
       DLTensor template_tensor{nullptr,  Device{kDLCPU, 0}, static_cast<int>(shape_vec.size()),
                                vtype[i], shape_vec.data(),  nullptr,
                                0};
