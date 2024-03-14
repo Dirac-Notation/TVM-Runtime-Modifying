@@ -416,7 +416,8 @@ void GraphExecutor::SetupStorage() {
 
   std::vector<DLDataType> vtype;
   for (const std::string& s_type : attrs_.dltype) {
-    std::cout << s_type << std::endl;
+    // 전부 float32
+    // std::cout << s_type << std::endl;
     vtype.push_back(tvm::runtime::String2DLDataType(s_type));
   }
 
@@ -532,6 +533,7 @@ void GraphExecutor::SetupStorage() {
     ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
     data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
+    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) <<std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
