@@ -504,6 +504,8 @@ void GraphExecutor::SetupStorage() {
     });
     Device dev = cit == devices_.end() ? devices_[0] : *cit;
     if (pit.linked_param.defined()) {
+      std::cout << k << ": if" << std::endl;
+      k += 1;
       storage_pool_.push_back(pit.linked_param);
     } else {
       std::vector<int64_t> shape = pit.shape;
@@ -514,7 +516,7 @@ void GraphExecutor::SetupStorage() {
       if (!pit.scope.empty()) {
         mem_scope = String(pit.scope);
       }
-      std::cout << k << ": Check" << std::endl;
+      std::cout << k << ": else" << std::endl;
       k += 1;
       storage_pool_.push_back(MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
                                   ->Empty(shape, pit.dtype, dev, mem_scope));
