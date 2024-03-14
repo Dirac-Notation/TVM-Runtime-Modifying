@@ -430,7 +430,7 @@ void GraphExecutor::SetupStorage() {
     if (!attrs_.device_index.empty()) {
       device_type = attrs_.device_index[i];
     }
-
+    std::cout << "i: " << i << " / storage_id: " << storage_id << std::endl;
     uint32_t sid = static_cast<uint32_t>(storage_id);
     if (sid >= pool_entry.size()) {
       pool_entry.resize(sid + 1, {-1, {0}, {}});
