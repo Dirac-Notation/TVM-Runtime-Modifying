@@ -416,6 +416,7 @@ void GraphExecutor::SetupStorage() {
 
   std::vector<DLDataType> vtype;
   for (const std::string& s_type : attrs_.dltype) {
+    std::cout << s_type << std::endl;
     vtype.push_back(tvm::runtime::String2DLDataType(s_type));
   }
 
@@ -450,7 +451,8 @@ void GraphExecutor::SetupStorage() {
       DLTensor template_tensor{nullptr,  Device{kDLCPU, 0}, static_cast<int>(shape_vec.size()),
                                vtype[i], shape_vec.data(),  nullptr,
                                0};
-      std::cout << "index[" << i << "]: " << static_cast<void*>(template_tensor.data) << std::endl;
+      // 여기선 데이터 메모리 주소가 할당되지는 않는 듯?
+      // std::cout << "index[" << i << "]: " << static_cast<void*>(template_tensor.data) << std::endl;
       lookup_rv = lookup_linked_param_(module_, sid, &template_tensor, devices_[0]);
     }
     if (lookup_rv.type_code() != kTVMNullptr) {
@@ -528,6 +530,7 @@ void GraphExecutor::SetupStorage() {
     sid_to_eid_[storage_id].push_back(i);
 
     ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
+    // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
     data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
 
     const DLTensor* tmp = data_entry_[i].operator->();
