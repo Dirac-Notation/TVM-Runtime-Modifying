@@ -528,27 +528,27 @@ void GraphExecutor::SetupStorage() {
 }
 
 void GraphExecutor::SetupPageTable() {
-  // uint32_t max_input = 0;
-  // for (size_t i = 0; i < nodes_.size(); i++) {
-  //   const auto& inode = nodes_[i];
+  uint32_t max_input = 0;
+  for (size_t i = 0; i < nodes_.size(); i++) {
+    const auto& inode = nodes_[i];
 
-    // if (inode.op_type == "null") {
-    //   uint32_t eid = this->entry_id(i, 0);
+    if (inode.op_type == "null") {
+      uint32_t eid = this->entry_id(i, 0);
 
-    //   std::cout << "entry[" << eid << "]: " << data_entry_[eid].operator->() << " / " << std::addressof(data_entry_[eid]) <<std::endl;
+      std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
 
-    //   continue;
-    // }
-    // if (inode.param.num_inputs > max_input) { max_input = inode.param.num_inputs; }
-  // }
-
-  // std::cout << "max_input: " << max_input << std::endl;
-
-  for (size_t i = 0; i < input_nodes_.size(); i++) {
-    const uint32_t nid = input_nodes_[i];
-
-    std::cout << "i: " << i << " / nid: " << nid << std::endl;
+      continue;
+    }
+    if (inode.param.num_inputs > max_input) { max_input = inode.param.num_inputs; }
   }
+
+  std::cout << "max_input: " << max_input << std::endl;
+
+  // for (size_t i = 0; i < input_nodes_.size(); i++) {
+  //   const uint32_t nid = input_nodes_[i];
+
+  //   std::cout << "i: " << i << " / nid: " << nid << std::endl;
+  // }
 }
 
 void GraphExecutor::SetupOpExecs() {
