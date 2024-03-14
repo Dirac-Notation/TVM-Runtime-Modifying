@@ -532,9 +532,9 @@ void GraphExecutor::SetupStorage() {
 
     ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
-    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) << std::endl;
+    // 여기까지는 data_entry_에 할당 안 됨
     data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
-    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) << std::endl;
+    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << static_cast<void*>(storage_pool_[storage_id]->data) << std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
