@@ -441,10 +441,10 @@ void GraphExecutor::SetupStorage() {
     TVMRetValue lookup_rv;
     {
       std::vector<int64_t> shape_vec{attrs_.shape[i].begin(), attrs_.shape[i].end()};
-      for (const auto& as : shape_vec) {
-        std::cout << as << " / ";
-      }
-      std::cout << std::endl;
+      // for (const auto& as : shape_vec) {
+      //   std::cout << as << " / ";
+      // }
+      // std::cout << std::endl;
       DLTensor template_tensor{nullptr,  Device{kDLCPU, 0}, static_cast<int>(shape_vec.size()),
                                vtype[i], shape_vec.data(),  nullptr,
                                0};
@@ -459,6 +459,7 @@ void GraphExecutor::SetupStorage() {
 
     DLDataType t = vtype[i];
     if (!details::Is2DStorage(storage_scope)) {
+      std::cout << "not 2D: " << sid << std::endl;
       size_t size = 1;
       for (int64_t sz : attrs_.shape[i]) {
         size *= static_cast<size_t>(sz);
