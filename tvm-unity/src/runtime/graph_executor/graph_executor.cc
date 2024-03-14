@@ -533,8 +533,11 @@ void GraphExecutor::SetupPageTable() {
     const auto& inode = nodes_[i];
 
     if (inode.op_type == "null") { continue; }
-
     if (inode.param.num_inputs > max_input) { max_input = inode.param.num_inputs; }
+
+    uint32_t eid = this->entry_id(i, 0);
+
+    std::cout << "entry[" << eid << "]: " << std::addressof(data_entry_[eid]) << std::endl;
   }
 
   std::cout << "max_input: " << max_input << std::endl;
