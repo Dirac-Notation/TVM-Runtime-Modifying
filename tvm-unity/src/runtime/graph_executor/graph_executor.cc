@@ -72,6 +72,8 @@ void GraphExecutor::LoadRun(const std::string& param_blob) {
 
 void GraphExecutor::LoadRun(dmlc::Stream* strm) {
   // setup the array and requirements.
+  Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
+  
   for (size_t i = 0; i < op_execs_.size(); ++i) {
     std::vector<size_t> indexs;
     std::vector<std::string> names;
@@ -94,8 +96,6 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
 
     IndexedSetupStorage(indexs);
     IndexedSetupOpExecs(indexs);
-
-    Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
 
     if (op_execs_[i]) {
       for (const auto& e : inode.inputs) {
