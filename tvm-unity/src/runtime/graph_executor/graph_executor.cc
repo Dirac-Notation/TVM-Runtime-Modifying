@@ -743,14 +743,10 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
 
   std::cout << "SetupOpExecs" << std::endl;
 
-  std::cout << "Check" << std::endl;
-
   op_execs_.resize(this->GetNumOfNodes());
   input_dltensors_.resize(num_node_entries());
   output_dltensors_.resize(num_node_entries());
   both_output_opinput_dltensors_.resize(num_node_entries());
-
-  std::cout << "Check" << std::endl;
 
   // input node entry index 만드는 과정
   std::unordered_set<uint32_t> input_node_eids;
@@ -767,8 +763,6 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
     // 1개
   }
 
-  std::cout << "Check" << std::endl;
-
   // setup the array and requirements.
   for (size_t nid : indexs) {
     // 연산 노드의 node
@@ -780,14 +774,12 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
       continue;
     }
     std::vector<DLTensor*> args;
-    std::cout << "Check" << std::endl;
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
       // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
       // push_back은 vector 끝에 요소 추가하는 함수
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
     }
-    std::cout << "Check" << std::endl;
     for (uint32_t index = 0; index < inode.param.num_outputs; ++index) {
       uint32_t eid = this->entry_id(nid, index);
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
@@ -797,7 +789,6 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
     std::shared_ptr<OpArgs> op_args = nullptr;
     // args는 input, output data_entry_ 위치
     std::tie(op_execs_[nid], op_args) = CreateTVMOp(inode.param, args);
-    std::cout << "Check" << std::endl;
     // dltensors 얘네 없어도 잘 돌아가는데 뭐지? 왜 있는 거지..
     for (size_t i = 0; i < inode.inputs.size(); i++) {
       uint32_t input_eid = this->entry_id(inode.inputs[i]);
@@ -822,7 +813,6 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
             static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
       }
     }
-    std::cout << "Check" << std::endl;
     for (uint32_t i = inode.inputs.size(); i < inode.inputs.size() + inode.param.num_outputs; ++i) {
       uint32_t output_eid = this->entry_id(nid, i - inode.inputs.size());
       // check if op output is model output
@@ -831,7 +821,6 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
             static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
       }
     }
-    std::cout << "Check" << std::endl;
   }
 }
 
