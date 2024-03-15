@@ -536,7 +536,9 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
       // 이쪽 실행 안 됨 전부 else
       storage_pool_.push_back(pit.linked_param);
     } else {
+      std::cout << "3-1" << std::endl;
       std::vector<int64_t> shape = pit.shape;
+      std::cout << "3-2" << std::endl;
       if (shape.size() == 1) {
         shape[0] = (shape[0] + 3) / 4;
       }
