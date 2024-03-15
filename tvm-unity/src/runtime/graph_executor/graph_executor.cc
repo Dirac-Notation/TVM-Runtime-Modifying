@@ -65,12 +65,21 @@ void GraphExecutor::Run() {
   }
 }
 
-void GraphExecutor::LoadRun(const std::string& param_blob) {
+void GraphExecutor::LoadRun(const std::string& param_blob, int index, DLTensor* data_in) {
   dmlc::MemoryStringStream strm(const_cast<std::string*>(&param_blob));
-  this->LoadRun(&strm);
+  this->LoadRun(&strm, index, data_in);
 }
 
-void GraphExecutor::LoadRun(dmlc::Stream* strm) {
+void GraphExecutor::LoadRun(dmlc::Stream* strm, int index, DLTensor* data_in) {
+  std::cout << "SetInput" << std::endl;
+  std::vector<size_t> indexs = {0};
+
+  IndexedSetupStorage(indexs);
+
+  ICHECK_LT(static_cast<size_t>(index), input_nodes_.size());
+  uint32_t eid = this->entry_id(input_nodes_[index], 0);
+  data_entry_[eid].CopyFrom(data_in);
+
   // setup the array and requirements.
   Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
   for (size_t i = 0; i < op_execs_.size(); ++i) {
@@ -889,7 +898,7 @@ PackedFunc GraphExecutor::GetFunction(const String& name, const ObjectPtr<Object
     return PackedFunc([sptr_to_self, this](TVMArgs args, TVMRetValue* rv) { this->Run(); });
   } else if (name == "load_run") {
     return PackedFunc([sptr_to_self, this](TVMArgs args, TVMRetValue* rv) {
-      this->LoadRun(args[0].operator std::string());
+      this->LoadRun(args[0].operator std::string(), args[1], args[2]);
     });
   } else if (name == "run_from_inputs") {
     return PackedFunc(

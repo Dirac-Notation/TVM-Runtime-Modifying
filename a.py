@@ -73,9 +73,6 @@ print("success module")
 
 # set input and parameters
 print()
-print("load data, params")
-module.set_input(0, data)
-print("success data")
 
 mode = True
 
@@ -83,9 +80,12 @@ if mode:
     # run
     print()
     print("start run")
-    module.load_run(serialized_byte_array)
+    module.load_run(serialized_byte_array, 0, data)
     print("success run")
 else:
+    print("load data, params")
+    module.set_input(0, data)
+    print("success data")
     module.load_params(serialized_byte_array)
     print("success params")
 
