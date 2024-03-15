@@ -134,6 +134,7 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
   // this->SetupOpExecs();
   std::vector<size_t> indexs = {0};
   IndexedSetupStorage(indexs);
+  IndexedSetupOpExecs(indexs);
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
     std::string& name = nodes_[nid].name;
@@ -677,6 +678,92 @@ void GraphExecutor::SetupPageTable() {
 
   //   std::cout << "i: " << i << " / nid: " << nid << std::endl;
   // }
+}
+
+void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
+  std::cout << "SetupOpExecs" << std::endl;
+
+  op_execs_.resize(this->GetNumOfNodes());
+  input_dltensors_.resize(num_node_entries());
+  output_dltensors_.resize(num_node_entries());
+  both_output_opinput_dltensors_.resize(num_node_entries());
+
+  // input node entry index 만드는 과정
+  std::unordered_set<uint32_t> input_node_eids;
+  for (size_t i = 0; i < input_nodes_.size(); i++) {
+    uint32_t nid = input_nodes_[i];
+    input_node_eids.insert(entry_id(nid, 0));
+    // 다 같음
+  }
+
+  // output node entry index 만드는 과정
+  std::unordered_set<uint32_t> output_node_eids;
+  for (size_t i = 0; i < outputs_.size(); i++) {
+    output_node_eids.insert(entry_id(outputs_[i]));
+    // 1개
+  }
+
+  // setup the array and requirements.
+  for (size_t nid : indexs) {
+    // 연산 노드의 node
+    nid = (uint32_t)nid;
+
+    const auto& inode = nodes_[nid];
+
+    if (inode.op_type == "null") {
+      continue;
+    }
+    std::vector<DLTensor*> args;
+    for (const auto& e : inode.inputs) {
+      uint32_t eid = this->entry_id(e);
+      // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
+      // push_back은 vector 끝에 요소 추가하는 함수
+      args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
+    }
+    for (uint32_t index = 0; index < inode.param.num_outputs; ++index) {
+      uint32_t eid = this->entry_id(nid, index);
+      args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
+    }
+    ICHECK(inode.op_type == "tvm_op") << "Can only take tvm_op as op";
+
+    std::shared_ptr<OpArgs> op_args = nullptr;
+    // args는 input, output data_entry_ 위치
+    std::tie(op_execs_[nid], op_args) = CreateTVMOp(inode.param, args);
+
+    // dltensors 얘네 없어도 잘 돌아가는데 뭐지? 왜 있는 거지..
+    for (size_t i = 0; i < inode.inputs.size(); i++) {
+      uint32_t input_eid = this->entry_id(inode.inputs[i]);
+      // check if op input is model input
+      if (input_node_eids.count(input_eid) > 0) {
+        input_dltensors_[input_eid].push_back(
+            static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
+
+        // Data entry who has the same storage_id should also be pushed into "input_dltensors" and
+        // being able to be updated by "SetInputZeroCopy()". This is to handle the situation that a
+        // "relay.reshape" follows immediately after input and input dltensor and reshape's output
+        // dltensor point to the same data_entry.
+        auto storage_id = attrs_.storage_id[input_eid];
+        for (auto eid : sid_to_eid_[storage_id]) {
+          input_dltensors_[input_eid].push_back(
+              const_cast<DLTensor*>(data_entry_[eid].operator->()));
+        }
+      }
+      // check if any model output is the input of the op
+      if (output_node_eids.count(input_eid) > 0) {
+        both_output_opinput_dltensors_[input_eid].push_back(
+            static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
+      }
+    }
+
+    for (uint32_t i = inode.inputs.size(); i < inode.inputs.size() + inode.param.num_outputs; ++i) {
+      uint32_t output_eid = this->entry_id(nid, i - inode.inputs.size());
+      // check if op output is model output
+      if (output_node_eids.count(output_eid) > 0) {
+        output_dltensors_[output_eid].push_back(
+            static_cast<DLTensor*>(op_args->arg_values[i].v_handle));
+      }
+    }
+  }
 }
 
 void GraphExecutor::SetupOpExecs() {

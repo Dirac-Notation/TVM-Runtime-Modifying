@@ -434,6 +434,8 @@ class TVM_DLL GraphExecutor : public ModuleNode {
   /*! \brief Testing */
   void SetupPageTable();
   /*! \brief Setup the executors. */
+  void IndexedSetupOpExecs(std::vector<size_t> indexs);
+  /*! \brief Setup the executors. */
   void SetupOpExecs();
   /*!
    * \brief Check the legality of external DLTensor*.
