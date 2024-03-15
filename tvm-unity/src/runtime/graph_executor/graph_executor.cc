@@ -463,6 +463,7 @@ void GraphExecutor::SetupStorage() {
     pool_entry[sid].device_type = device_type;
     pool_entry[sid].scope = storage_scope;
 
+    // vtype이 data 타입임 → 전부 float32
     DLDataType t = vtype[i];
     if (!details::Is2DStorage(storage_scope)) {
       size_t size = 1;
@@ -470,6 +471,7 @@ void GraphExecutor::SetupStorage() {
         size *= static_cast<size_t>(sz);
       }
       size_t bits = t.bits * t.lanes;
+      std::cout << t.lanes << std::endl;
       ICHECK(bits % 8U == 0U || bits == 1U || bits == 4U);
       int64_t bytes = ((bits + 7U) / 8U) * size;
       pool_entry[sid].shape[0] = std::max(pool_entry[sid].shape[0], bytes);
@@ -495,7 +497,6 @@ void GraphExecutor::SetupStorage() {
   }
 
   // Allocate the space.
-  int k = 0;
   for (const auto& pit : pool_entry) {
     // This for loop is very fast since there are usually only a couple of
     // devices available on the same hardware.
@@ -504,8 +505,7 @@ void GraphExecutor::SetupStorage() {
     });
     Device dev = cit == devices_.end() ? devices_[0] : *cit;
     if (pit.linked_param.defined()) {
-      std::cout << k << ": if" << std::endl;
-      k += 1;
+      // 이쪽 실행 안 됨 전부 else
       storage_pool_.push_back(pit.linked_param);
     } else {
       std::vector<int64_t> shape = pit.shape;
@@ -516,8 +516,6 @@ void GraphExecutor::SetupStorage() {
       if (!pit.scope.empty()) {
         mem_scope = String(pit.scope);
       }
-      std::cout << k << ": else" << std::endl;
-      k += 1;
       storage_pool_.push_back(MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
                                   ->Empty(shape, pit.dtype, dev, mem_scope));
     }
@@ -554,7 +552,7 @@ void GraphExecutor::SetupPageTable() {
     if (inode.op_type == "null") {
       uint32_t eid = this->entry_id(i, 0);
 
-      std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
+      // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
 
       continue;
     }
