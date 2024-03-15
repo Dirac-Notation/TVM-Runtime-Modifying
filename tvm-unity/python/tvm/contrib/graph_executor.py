@@ -264,7 +264,7 @@ class GraphModule(object):
             self.set_input(**input_dict)
         self._run()
 
-    def load_run(self, params_bytes, key, value):
+    def load_run(self, params_bytes):
         """Run forward execution of the graph
 
         Parameters
@@ -272,7 +272,7 @@ class GraphModule(object):
         input_dict: dict of str to NDArray
             List of input values to be feed to
         """
-        self._load_run(bytearray(params_bytes), key, value)
+        self._load_run(bytearray(params_bytes))
 
     def get_num_outputs(self):
         """Get the number of outputs from the graph
