@@ -476,7 +476,7 @@ void GraphExecutor::SetupStorage() {
       size_t bits = t.bits * t.lanes;
       ICHECK(bits % 8U == 0U || bits == 1U || bits == 4U);
       int64_t bytes = ((bits + 7U) / 8U) * size;
-      std::cout << "sid: " << sid << " / " << pool_entry[sid].shape[0] << std::endl;
+      std::cout << "sid: " << sid << " / " << pool_entry[sid].shape[0] << " / " << std::max(pool_entry[sid].shape[0], bytes) << std::endl;
       pool_entry[sid].shape[0] = std::max(pool_entry[sid].shape[0], bytes);
       pool_entry[sid].dtype = DLDataType{kDLFloat, 32, 1};
     } else {
