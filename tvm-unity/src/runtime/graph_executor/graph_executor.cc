@@ -78,6 +78,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     std::vector<std::string> names;
 
     const auto& inode = nodes_[i];
+    std::cout << 
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
       for (auto& p : params) {
@@ -89,7 +90,6 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           // data_entry_[eid].CopyFrom(p.second);
         }
       }
-      indexs.push_back(i);
     }
 
     IndexedSetupStorage(indexs);
@@ -309,11 +309,8 @@ int GraphExecutor::NumInputs() const { return input_nodes_.size(); }
  * \return NDArray corresponding to given input node index.
  */
 NDArray GraphExecutor::GetInput(int index) const {
-  std::cout << "getinput 1" << std::endl;
   ICHECK_LT(static_cast<size_t>(index), input_nodes_.size());
-  std::cout << "getinput 2" << std::endl;
   uint32_t eid = this->entry_id(input_nodes_[index], 0);
-  std::cout << "getinput 3" << std::endl;
   return data_entry_[eid];
 }
 /*!
@@ -449,7 +446,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   std::vector<PoolEntry> pool_entry;
   // Find the maximum space size.
   for (size_t i : indexs) {
-    std::cout << i << std::endl;
+    // std::cout << i << std::endl;
     int storage_id = attrs_.storage_id[i];
     std::string storage_scope = attrs_.storage_scope.empty() ? "" : attrs_.storage_scope[i];
     // Use the fallback device if no device index is available.
@@ -523,7 +520,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
           << " downstream error from memory planner likely";
       pool_entry[sid].dtype = t;
     }
-    std::cout << "complete" << std::endl;
+    // std::cout << "complete" << std::endl;
   }
 
   storage_pool_.resize(num_node_entries());
@@ -548,7 +545,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
       if (!pit.scope.empty()) {
         mem_scope = String(pit.scope);
       }
-      std::cout << pit.dtype << std::endl;
+      // std::cout << pit.dtype << std::endl;
       storage_pool_[i] = MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
                                   ->Empty(shape, pit.dtype, dev, mem_scope);
     }
@@ -574,7 +571,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
-    std::cout << "complete" << std::endl;
+    // std::cout << "complete" << std::endl;
   }
 }
 
