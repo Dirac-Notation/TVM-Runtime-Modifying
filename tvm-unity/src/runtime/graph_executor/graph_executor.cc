@@ -582,7 +582,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
     // 여기까지는 data_entry_에 할당 안 됨, storage_pool_이랑 data의 주소가 같다
     data_entry_[i] = storage_pool_[i].CreateView(attrs_.shape[i], vtype[i]);
-    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << static_cast<void*>(storage_pool_[storage_id]->data) << std::endl;
+    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) << std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
