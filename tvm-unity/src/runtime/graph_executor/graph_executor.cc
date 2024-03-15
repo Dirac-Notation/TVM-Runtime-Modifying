@@ -121,16 +121,15 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
   devices_ = devs;
   // lookup_linked_param_ 아무것도 없는 팩함수임 → 아마 linked param이 없는 걸로 생각하는 게 좋을 수도
   lookup_linked_param_ = lookup_linked_param_func;
-  std::cout << std::addressof(lookup_linked_param_) << std::endl;
   if (lookup_linked_param_ == nullptr) {
     lookup_linked_param_ = PackedFunc(
         [this](TVMArgs args, TVMRetValue* rv) { this->DefaultLookupLinkedParam(args, rv); });
   }
-  this->SetupStorage();
-  this->SetupOpExecs();
-  // std::vector<size_t> indexs = {0, 1};
-  // IndexedSetupStorage(indexs);
-  // IndexedSetupOpExecs(indexs);
+  // this->SetupStorage();
+  // this->SetupOpExecs();
+  std::vector<size_t> indexs = {0, 1};
+  IndexedSetupStorage(indexs);
+  IndexedSetupOpExecs(indexs);
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
     std::string& name = nodes_[nid].name;
@@ -473,6 +472,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
       // std::cout << "index[" << i << "]: " << static_cast<void*>(template_tensor.data) << std::endl;
       lookup_rv = lookup_linked_param_(module_, sid, &template_tensor, devices_[0]);
     }
+    std::cout << lookup_rv.type_code() << std::endl;
     if (lookup_rv.type_code() != kTVMNullptr) {
       pool_entry[sid].linked_param = lookup_rv;
     }
