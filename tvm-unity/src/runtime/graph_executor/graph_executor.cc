@@ -76,32 +76,30 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
   for (size_t i = 0; i < op_execs_.size(); ++i) {
     std::vector<size_t> indexs;
     std::vector<std::string> names;
-    std::cout << "a" << std::endl;
-    if (op_execs_[i]) {
-      const auto& inode = nodes_[i];
-      for (const auto& e : inode.inputs) {
-        uint32_t eid = this->entry_id(e);
-        for (auto& p : params) {
-          size_t in_idx = GetInputIndex(p.first);
-          if (in_idx < 0) continue;
-          if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
-            indexs.push_back(in_idx);
-            names.push_back(p.first);
-            // data_entry_[eid].CopyFrom(p.second);
-            // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
-          }
+
+    const auto& inode = nodes_[i];
+    for (const auto& e : inode.inputs) {
+      uint32_t eid = this->entry_id(e);
+      for (auto& p : params) {
+        size_t in_idx = GetInputIndex(p.first);
+        if (in_idx < 0) continue;
+        if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
+          indexs.push_back(in_idx);
+          names.push_back(p.first);
+          // data_entry_[eid].CopyFrom(p.second);
+          // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
         }
       }
-      std::cout << inode.name << ": ";
-      for (size_t k : indexs) {
-        std::cout << k << " / ";
-      }
-      for (std::string k : names) {
-        std::cout << k << " / ";
-      }
-      std::cout << std::endl;
-      op_execs_[i]();
     }
+    std::cout << inode.name << ": ";
+    for (size_t k : indexs) {
+      std::cout << k << " / ";
+    }
+    for (std::string k : names) {
+      std::cout << k << " / ";
+    }
+    std::cout << std::endl;
+    // op_execs_[i]();
   }
 }
 
