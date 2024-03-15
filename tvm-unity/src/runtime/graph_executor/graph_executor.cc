@@ -73,7 +73,7 @@ void GraphExecutor::LoadRun(const std::string& param_blob) {
 void GraphExecutor::LoadRun(dmlc::Stream* strm) {
   // setup the array and requirements.
   Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
-  
+
   for (size_t i = 0; i < op_execs_.size(); ++i) {
     std::vector<size_t> indexs;
     std::vector<std::string> names;
@@ -439,7 +439,6 @@ void GraphExecutor::DefaultLookupLinkedParam(TVMArgs args, TVMRetValue* rv) {
 void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   if (indexs.empty()) { return; }
   // Grab saved optimization plan from graph.
-  std::cout << "SetupStorage" << std::endl;
 
   std::vector<DLDataType> vtype;
   for (const std::string& s_type : attrs_.dltype) {
@@ -456,7 +455,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   std::vector<PoolEntry> pool_entry;
   // Find the maximum space size.
   for (size_t i : indexs) {
-    std::cout << "Check" << std::endl;
+    // std::cout << "Check" << std::endl;
     // std::cout << i << std::endl;
     int storage_id = attrs_.storage_id[i];
     std::string storage_scope = attrs_.storage_scope.empty() ? "" : attrs_.storage_scope[i];
@@ -531,7 +530,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
           << " downstream error from memory planner likely";
       pool_entry[sid].dtype = t;
     }
-    std::cout << "complete" << std::endl;
+    // std::cout << "complete" << std::endl;
   }
 
   storage_pool_.resize(num_node_entries());
@@ -540,7 +539,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     int storage_id = attrs_.storage_id[i];
     uint32_t sid = static_cast<uint32_t>(storage_id);
 
-    std::cout << "Check" << std::endl;
+    // std::cout << "Check" << std::endl;
     const auto& pit = pool_entry[sid];
     // This for loop is very fast since there are usually only a couple of
     // devices available on the same hardware.
@@ -562,7 +561,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
       }
       storage_pool_[i] = MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
                                   ->Empty(shape, pit.dtype, dev, mem_scope);
-      std::cout << "complete" << std::endl;
+      // std::cout << "complete" << std::endl;
     }
   }
 
@@ -574,7 +573,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   // sid_to_eid has a size of storage_id's size, which is the size of storage_pool_.
   sid_to_eid_.resize(num_node_entries());
   for (size_t i : indexs) {
-    std::cout << i << " Check" << std::endl;
+    // std::cout << i << " Check" << std::endl;
     int storage_id = attrs_.storage_id[i];
     // Update "storage_id -> entry_id" pair.
     sid_to_eid_[storage_id].push_back(i);
@@ -587,7 +586,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
-    std::cout << "complete" << std::endl;
+    // std::cout << "complete" << std::endl;
   }
 }
 
@@ -755,8 +754,6 @@ void GraphExecutor::SetupPageTable() {
 
 void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
   if (indexs.empty()) { return; }
-
-  std::cout << "SetupOpExecs" << std::endl;
 
   op_execs_.resize(this->GetNumOfNodes());
   input_dltensors_.resize(num_node_entries());
