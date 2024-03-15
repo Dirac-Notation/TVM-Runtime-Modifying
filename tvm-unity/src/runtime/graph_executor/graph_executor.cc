@@ -72,21 +72,28 @@ void GraphExecutor::LoadRun(const std::string& param_blob) {
 
 void GraphExecutor::LoadRun(dmlc::Stream* strm) {
   // setup the array and requirements.
-  Map<String, NDArray> params = ::tvm::runtime::LoadParams(strm);
+  Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
   for (size_t i = 0; i < op_execs_.size(); ++i) {
+    std::vector<size_t> indexs;
+
     if (op_execs_[i]) {
       const auto& inode = nodes_[i];
       for (const auto& e : inode.inputs) {
         uint32_t eid = this->entry_id(e);
         for (auto& p : params) {
-          int in_idx = GetInputIndex(p.first);
+          size_t in_idx = GetInputIndex(p.first);
           if (in_idx < 0) continue;
           if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
-            data_entry_[eid].CopyFrom(p.second);
+            indexs.push_back(in_idx);
+            // data_entry_[eid].CopyFrom(p.second);
             // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
           }
         }
       }
+      for (size_t k : indexs) {
+        std::cout << k << " / ";
+      }
+      std::cout << std::endl;
       op_execs_[i]();
     }
   }
@@ -118,7 +125,6 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
         [this](TVMArgs args, TVMRetValue* rv) { this->DefaultLookupLinkedParam(args, rv); });
   }
   this->SetupStorage();
-  this->SetupPageTable();
   this->SetupOpExecs();
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
@@ -410,6 +416,97 @@ void GraphExecutor::DefaultLookupLinkedParam(TVMArgs args, TVMRetValue* rv) {
                                            template_tensor->dtype, dev);
   container->SetDeleter(GraphExecutor::LinkedNDArrayDeleter);
   *rv = NDArray(GetObjectPtr<Object>(container));
+}
+
+void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
+  // Grab saved optimization plan from graph.
+  std::cout << "SetupStorage" << std::endl;
+
+  std::vector<DLDataType> vtype;
+  for (const std::string& s_type : attrs_.dltype) {
+    // 전부 float32
+    // std::cout << s_type << std::endl;
+    vtype.push_back(tvm::runtime::String2DLDataType(s_type));
+  }
+
+  // Size and device type of each storage pool entry.
+  std::vector<PoolEntry> pool_entry;
+  // Find the maximum space size.
+  for (size_t i : indexs) {
+    int storage_id = attrs_.storage_id[i];
+    std::string storage_scope = attrs_.storage_scope.empty() ? "" : attrs_.storage_scope[i];
+    // Use the fallback device if no device index is available.
+    int device_type = static_cast<int>(devices_[0].device_type);
+    if (!attrs_.device_index.empty()) {
+      device_type = attrs_.device_index[i];
+    }
+    // std::cout << "i: " << i << " / storage_id: " << storage_id << std::endl;
+    uint32_t sid = static_cast<uint32_t>(storage_id);
+    if (sid >= pool_entry.size()) {
+      pool_entry.resize(sid + 1, {-1, {0}, {}});
+    } else {
+      ICHECK(pool_entry[sid].device_type == -1 || pool_entry[sid].device_type == device_type)
+          << "The same pool entry cannot be assigned to multiple devices";
+    }
+    TVMRetValue lookup_rv;
+    {
+      // shape_vec - 1/3/224/224 같이 데이터 모양들 
+      std::vector<int64_t> shape_vec{attrs_.shape[i].begin(), attrs_.shape[i].end()};
+      // for (const auto& as : shape_vec) {
+      //   std::cout << as << " / ";
+      // }
+      // std::cout << std::endl;
+      // 정해진 크기의 DLTensor 만드는 것 같은데
+      DLTensor template_tensor{nullptr,  Device{kDLCPU, 0}, static_cast<int>(shape_vec.size()),
+                               vtype[i], shape_vec.data(),  nullptr,
+                               0};
+      // 여기선 데이터 메모리 주소가 할당되지는 않는 듯?
+      // std::cout << "index[" << i << "]: " << static_cast<void*>(template_tensor.data) << std::endl;
+      lookup_rv = lookup_linked_param_(module_, sid, &template_tensor, devices_[0]);
+    }
+    if (lookup_rv.type_code() != kTVMNullptr) {
+      pool_entry[sid].linked_param = lookup_rv;
+    }
+    pool_entry[sid].param_data_entry = i;
+    pool_entry[sid].device_type = device_type;
+    pool_entry[sid].scope = storage_scope;
+
+    // vtype이 data 타입임 → 전부 float32
+    DLDataType t = vtype[i];
+    if (!details::Is2DStorage(storage_scope)) {
+      size_t size = 1;
+      for (int64_t sz : attrs_.shape[i]) {
+        size *= static_cast<size_t>(sz);
+      }
+      // std::cout << t.lanes << std::endl;
+      // t.lanes이 vector 같이 여러개 있는 애들의 개수 여기서는 전부 1
+      // t.bits는 vtype에 저장되어 있는 데이터 타입의 비트 수 - 여기서는 float32이니까 32
+      size_t bits = t.bits * t.lanes;
+      ICHECK(bits % 8U == 0U || bits == 1U || bits == 4U);
+      int64_t bytes = ((bits + 7U) / 8U) * size;
+      // std::cout << "sid: " << sid << " / " << pool_entry[sid].shape[0] << " / " << std::max(pool_entry[sid].shape[0], bytes) << std::endl;
+      // 100~105번 sid는 op 진행할 때 재활용이 되는 것 같긴 한데, 사이즈가 다른 문제는 그냥 큰 거를 사용하는 듯.
+      pool_entry[sid].shape[0] = std::max(pool_entry[sid].shape[0], bytes);
+      pool_entry[sid].dtype = DLDataType{kDLFloat, 32, 1};
+    } else {
+      if (pool_entry[sid].shape.size() == 1) {
+        pool_entry[sid].shape.resize(3, 0);
+      }
+      size_t axis = runtime::DefaultTextureLayoutSeparator(attrs_.shape[i].size(), storage_scope);
+      auto shape = ApplyTexture2DFlattening<int64_t>(attrs_.shape[i], attrs_.shape[i].size(), axis);
+      pool_entry[sid].shape[0] = std::max(pool_entry[sid].shape[0], shape.height);
+      pool_entry[sid].shape[1] = std::max(pool_entry[sid].shape[1], shape.width);
+      CHECK(pool_entry[sid].shape[2] == 0 || pool_entry[sid].shape[2] == shape.channel)
+          << pool_entry[sid].shape[2] << " != " << shape.channel
+          << ",  texture channel length must be consistent within a storage pool";
+      pool_entry[sid].shape[2] = shape.channel;
+      CHECK(pool_entry[sid].dtype.bits == 0 || TypeEqual(pool_entry[sid].dtype, t))
+          << DLDataType2String(pool_entry[sid].dtype) << " != " << DLDataType2String(t)
+          << ", pool entry for 2d texure allocations must be of the same type;"
+          << " downstream error from memory planner likely";
+      pool_entry[sid].dtype = t;
+    }
+  }
 }
 
 void GraphExecutor::SetupStorage() {

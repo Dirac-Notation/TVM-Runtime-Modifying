@@ -428,6 +428,8 @@ class TVM_DLL GraphExecutor : public ModuleNode {
   /*! \brief Delete NDArray::Container with linked (i.e. static) data. */
   static void LinkedNDArrayDeleter(Object* container);
   /*! \brief Setup the temporal storage */
+  void IndexedSetupStorage(std::vector<size_t> indexs);
+  /*! \brief Setup the temporal storage */
   void SetupStorage();
   /*! \brief Testing */
   void SetupPageTable();
