@@ -525,6 +525,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
           << " downstream error from memory planner likely";
       pool_entry[sid].dtype = t;
     }
+    std::cout << "complete" << std::endl;
   }
 
   // Allocate the space.
@@ -573,7 +574,6 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
   }
-  std::cout << "complete" << std::endl;
 }
 
 void GraphExecutor::SetupStorage() {
