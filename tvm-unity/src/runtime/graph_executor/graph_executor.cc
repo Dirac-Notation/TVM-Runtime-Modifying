@@ -529,32 +529,24 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
 
     std::cout << "Check" << std::endl;
     const auto& pit = pool_entry[sid];
-    std::cout << "1" << std::endl;
     // This for loop is very fast since there are usually only a couple of
     // devices available on the same hardware.
     const auto& cit = std::find_if(devices_.begin(), devices_.end(), [&pit](const Device& d) {
       return pit.device_type == static_cast<int>(d.device_type);
     });
-    std::cout << "2" << std::endl;
     Device dev = cit == devices_.end() ? devices_[0] : *cit;
-    std::cout << "3" << std::endl;
     if (pit.linked_param.defined()) {
       // 이쪽 실행 안 됨 전부 else
-      std::cout << "?" << std::endl;
       storage_pool_.push_back(pit.linked_param);
     } else {
-      std::cout << "3-1" << std::endl;
       std::vector<int64_t> shape = pit.shape;
-      std::cout << "3-2" << std::endl;
       if (shape.size() == 1) {
         shape[0] = (shape[0] + 3) / 4;
       }
-      std::cout << "4" << std::endl;
       Optional<String> mem_scope;
       if (!pit.scope.empty()) {
         mem_scope = String(pit.scope);
       }
-      std::cout << "5" << std::endl;
       storage_pool_[i] = MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
                                   ->Empty(shape, pit.dtype, dev, mem_scope);
       std::cout << "complete" << std::endl;
@@ -569,7 +561,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   // sid_to_eid has a size of storage_id's size, which is the size of storage_pool_.
   sid_to_eid_.resize(num_node_entries());
   for (size_t i : indexs) {
-    std::cout << "Check" << std::endl;
+    std::cout << i << " Check" << std::endl;
     int storage_id = attrs_.storage_id[i];
     // Update "storage_id -> entry_id" pair.
     sid_to_eid_[storage_id].push_back(i);
