@@ -105,7 +105,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           if (in_idx < 0) continue;
           if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
             data_entry_[eid].CopyFrom(p.second);
-            std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
+            std::cout << "entry[" << eid << "]: " << data_entry_[eid].operator->() << " / " << std::addressof(data_entry_[eid]) <<std::endl;
           }
         }
       }
@@ -582,7 +582,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
     // 여기까지는 data_entry_에 할당 안 됨, storage_pool_이랑 data의 주소가 같다
     data_entry_[i] = storage_pool_[i].CreateView(attrs_.shape[i], vtype[i]);
-    std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << std::addressof(data_entry_[i]) << std::endl;
+    std::cout << "entry[" << i << "]: " << data_entry_[i].operator->() << " / " << std::addressof(data_entry_[i]) << std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
     data_alignment_[i] = details::GetDataAlignment(*tmp);
@@ -790,12 +790,12 @@ void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
       uint32_t eid = this->entry_id(e);
       // op_type은 tvm_op, e.index는 전부 0, eid = e.node_id + e.index = e.node_id, 0 ~ 143 까지 나옴
       // push_back은 vector 끝에 요소 추가하는 함수
-      std::cout << eid << ": " << data_entry_[eid]->data << std::endl;
+      std::cout << eid << ": " << data_entry_[eid].operator->() << std::endl;
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
     }
     for (uint32_t index = 0; index < inode.param.num_outputs; ++index) {
       uint32_t eid = this->entry_id(nid, index);
-      std::cout << eid << ": " << data_entry_[eid]->data << std::endl;
+      std::cout << eid << ": " << data_entry_[eid].operator->() << std::endl;
       args.push_back(const_cast<DLTensor*>(data_entry_[eid].operator->()));
     }
     ICHECK(inode.op_type == "tvm_op") << "Can only take tvm_op as op";
