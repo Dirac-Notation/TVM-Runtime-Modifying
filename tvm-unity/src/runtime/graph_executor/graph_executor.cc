@@ -87,12 +87,10 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           indexs.push_back(in_idx);
           names.push_back(p.first);
           // data_entry_[eid].CopyFrom(p.second);
-          // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
         }
       }
+      indexs.push_back(i);
     }
-
-    sort(indexs.begin(), indexs.end());
 
     IndexedSetupStorage(indexs);
     IndexedSetupOpExecs(indexs);
@@ -105,7 +103,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     //   std::cout << k << " / ";
     // }
     // std::cout << std::endl;
-    // op_execs_[i]();
+    op_execs_[i]();
   }
 }
 
@@ -564,22 +562,17 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   // sid_to_eid has a size of storage_id's size, which is the size of storage_pool_.
   sid_to_eid_.resize(num_node_entries());
   for (size_t i : indexs) {
-    std::cout << "asdf" << std::endl;
     int storage_id = attrs_.storage_id[i];
-    std::cout << "asdf" << std::endl;
     // Update "storage_id -> entry_id" pair.
     sid_to_eid_[storage_id].push_back(i);
-    std::cout << "asdf" << std::endl;
 
     // ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
     // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
     // 여기까지는 data_entry_에 할당 안 됨, storage_pool_이랑 data의 주소가 같다
     data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
-    std::cout << "asdf" << std::endl;
     // std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << static_cast<void*>(storage_pool_[storage_id]->data) << std::endl;
 
     const DLTensor* tmp = data_entry_[i].operator->();
-    std::cout << "asdf" << std::endl;
     data_alignment_[i] = details::GetDataAlignment(*tmp);
     std::cout << "complete" << std::endl;
   }
