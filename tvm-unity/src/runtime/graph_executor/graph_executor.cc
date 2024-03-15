@@ -90,6 +90,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           }
         }
       }
+      std::cout << inode.name << ": ";
       for (size_t k : indexs) {
         std::cout << k << " / ";
       }
