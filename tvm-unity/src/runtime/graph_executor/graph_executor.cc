@@ -92,6 +92,8 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
       }
     }
 
+    sort(indexs.begin(), indexs.end());
+
     IndexedSetupStorage(indexs);
     IndexedSetupOpExecs(indexs);
 
