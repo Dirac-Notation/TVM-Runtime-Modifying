@@ -110,7 +110,9 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
   this->Load(&reader);
   module_ = module;
   devices_ = devs;
+  // lookup_linked_param_ 아무것도 없는 팩함수임 → 아마 linked param이 없는 걸로 생각하는 게 좋을 수도
   lookup_linked_param_ = lookup_linked_param_func;
+  std::cout << std::addressof(lookup_linked_param_) << std::endl;
   if (lookup_linked_param_ == nullptr) {
     lookup_linked_param_ = PackedFunc(
         [this](TVMArgs args, TVMRetValue* rv) { this->DefaultLookupLinkedParam(args, rv); });
@@ -476,7 +478,8 @@ void GraphExecutor::SetupStorage() {
       size_t bits = t.bits * t.lanes;
       ICHECK(bits % 8U == 0U || bits == 1U || bits == 4U);
       int64_t bytes = ((bits + 7U) / 8U) * size;
-      std::cout << "sid: " << sid << " / " << pool_entry[sid].shape[0] << " / " << std::max(pool_entry[sid].shape[0], bytes) << std::endl;
+      // std::cout << "sid: " << sid << " / " << pool_entry[sid].shape[0] << " / " << std::max(pool_entry[sid].shape[0], bytes) << std::endl;
+      // 100~105번 sid는 op 진행할 때 재활용이 되는 것 같긴 한데, 사이즈가 다른 문제는 그냥 큰 거를 사용하는 듯.
       pool_entry[sid].shape[0] = std::max(pool_entry[sid].shape[0], bytes);
       pool_entry[sid].dtype = DLDataType{kDLFloat, 32, 1};
     } else {

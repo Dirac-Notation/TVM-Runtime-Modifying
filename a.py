@@ -55,6 +55,7 @@ else:
 
 # create random input
 dev = tvm.cuda()
+print(dev)
 np.random.seed(0)
 data = np.random.uniform(-1, 1, size=data_shape).astype("float32")
 
