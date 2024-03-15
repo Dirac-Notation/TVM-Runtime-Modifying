@@ -435,9 +435,9 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     vtype.push_back(tvm::runtime::String2DLDataType(s_type));
   }
 
-  for (size_t i = 0; i < attrs_.storage_id.size(); i++) {
-    std::cout << i << ": " << attrs_.storage_id[i] << std::endl;
-  }
+  // for (size_t i = 0; i < attrs_.storage_id.size(); i++) {
+  //   std::cout << i << ": " << attrs_.storage_id[i] << std::endl;
+  // }
 
   // Size and device type of each storage pool entry.
   std::vector<PoolEntry> pool_entry;
