@@ -454,7 +454,6 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     }
     // std::cout << "i: " << i << " / storage_id: " << storage_id << std::endl;
     uint32_t sid = static_cast<uint32_t>(storage_id);
-    std::cout << sid << std::endl;
     if (sid >= pool_entry.size()) {
       pool_entry.resize(sid + 1, {-1, {0}, {}});
     } else {
@@ -525,8 +524,11 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   storage_pool_.resize(num_node_entries());
   // Allocate the space.
   for (size_t i : indexs) {
+    int storage_id = attrs_.storage_id[i];
+    uint32_t sid = static_cast<uint32_t>(storage_id);
+
     std::cout << "Check" << std::endl;
-    const auto& pit = pool_entry[i];
+    const auto& pit = pool_entry[sid];
     std::cout << "1" << std::endl;
     // This for loop is very fast since there are usually only a couple of
     // devices available on the same hardware.
