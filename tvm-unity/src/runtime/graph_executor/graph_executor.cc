@@ -105,7 +105,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           if (in_idx < 0) continue;
           if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
             data_entry_[eid].CopyFrom(p.second);
-            // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
+            std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
           }
         }
       }
