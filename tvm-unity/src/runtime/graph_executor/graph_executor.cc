@@ -444,7 +444,6 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   for (const std::string& s_type : attrs_.dltype) {
     // 전부 float32
     // std::cout << s_type << std::endl;
-    std::cout << s_type << std::endl;
     vtype.push_back(tvm::runtime::String2DLDataType(s_type));
   }
 
@@ -530,7 +529,8 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   }
 
   // Allocate the space.
-  for (const auto& pit : pool_entry) {
+  for (size_t i : indexs) {
+    const auto& pit = pool_entry[i];
     // This for loop is very fast since there are usually only a couple of
     // devices available on the same hardware.
     const auto& cit = std::find_if(devices_.begin(), devices_.end(), [&pit](const Device& d) {
