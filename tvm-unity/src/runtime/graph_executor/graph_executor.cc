@@ -307,8 +307,11 @@ int GraphExecutor::NumInputs() const { return input_nodes_.size(); }
  * \return NDArray corresponding to given input node index.
  */
 NDArray GraphExecutor::GetInput(int index) const {
+  std::cout << "getinput 1" << std::endl;
   ICHECK_LT(static_cast<size_t>(index), input_nodes_.size());
+  std::cout << "getinput 2" << std::endl;
   uint32_t eid = this->entry_id(input_nodes_[index], 0);
+  std::cout << "getinput 3" << std::endl;
   return data_entry_[eid];
 }
 /*!
