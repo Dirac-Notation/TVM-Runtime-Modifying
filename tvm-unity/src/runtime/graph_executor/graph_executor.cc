@@ -88,17 +88,15 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     }
     indexs.push_back(i);
 
-    IndexedSetupStorage(indexs);
-    IndexedSetupOpExecs(indexs);
-
     std::cout << inode.name << ": ";
     for (size_t k : indexs) {
       std::cout << k << " / ";
     }
-    // for (std::string k : names) {
-    //   std::cout << k << " / ";
-    // }
     std::cout << std::endl;
+
+    IndexedSetupStorage(indexs);
+    IndexedSetupOpExecs(indexs);
+
     op_execs_[i]();
   }
 }
