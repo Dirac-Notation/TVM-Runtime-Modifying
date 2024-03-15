@@ -136,7 +136,7 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
   }
   // this->SetupStorage();
   // this->SetupOpExecs();
-  std::vector<size_t> indexs = {0};
+  std::vector<size_t> indexs = {0, 1};
   IndexedSetupStorage(indexs);
   IndexedSetupOpExecs(indexs);
   for (size_t i = 0; i < input_nodes_.size(); i++) {
