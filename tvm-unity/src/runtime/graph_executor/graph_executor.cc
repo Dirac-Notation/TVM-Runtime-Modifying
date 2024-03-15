@@ -450,6 +450,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     }
     // std::cout << "i: " << i << " / storage_id: " << storage_id << std::endl;
     uint32_t sid = static_cast<uint32_t>(storage_id);
+    std::cout << sid << std::endl;
     if (sid >= pool_entry.size()) {
       pool_entry.resize(sid + 1, {-1, {0}, {}});
     } else {
@@ -472,7 +473,6 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
       // std::cout << "index[" << i << "]: " << static_cast<void*>(template_tensor.data) << std::endl;
       lookup_rv = lookup_linked_param_(module_, sid, &template_tensor, devices_[0]);
     }
-    std::cout << lookup_rv.type_code() << std::endl;
     if (lookup_rv.type_code() != kTVMNullptr) {
       pool_entry[sid].linked_param = lookup_rv;
     }
