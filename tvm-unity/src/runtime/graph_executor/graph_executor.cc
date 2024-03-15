@@ -534,6 +534,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     std::cout << "3" << std::endl;
     if (pit.linked_param.defined()) {
       // 이쪽 실행 안 됨 전부 else
+      std::cout << "?" << std::endl;
       storage_pool_.push_back(pit.linked_param);
     } else {
       std::cout << "3-1" << std::endl;
