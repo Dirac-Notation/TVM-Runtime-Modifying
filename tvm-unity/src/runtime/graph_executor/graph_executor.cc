@@ -78,7 +78,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     std::vector<std::string> names;
 
     const auto& inode = nodes_[i];
-    std::cout << 
+    std::cout << inode.op_type << std::endl;
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
       for (auto& p : params) {
