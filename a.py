@@ -83,6 +83,7 @@ if mode:
     # run
     print()
     print("start run")
+    import pdb; pdb.set_trace()
     module.load_run(serialized_byte_array)
     print("success run")
 else:

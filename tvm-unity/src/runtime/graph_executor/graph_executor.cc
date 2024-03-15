@@ -72,7 +72,6 @@ void GraphExecutor::LoadRun(const std::string& param_blob) {
 
 void GraphExecutor::LoadRun(dmlc::Stream* strm) {
   // setup the array and requirements.
-  Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
   for (size_t i = 0; i < op_execs_.size(); ++i) {
     std::vector<size_t> indexs;
     std::vector<std::string> names;
@@ -83,7 +82,6 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
 
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
-
       if ( eid < input_nodes_.size() && eid != 0 ){ indexs.push_back(eid); }
     }
     indexs.push_back(i);
@@ -97,7 +95,22 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     IndexedSetupStorage(indexs);
     IndexedSetupOpExecs(indexs);
 
-    op_execs_[i]();
+    Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
+
+    if (op_execs_[i]) {
+      for (const auto& e : inode.inputs) {
+        uint32_t eid = this->entry_id(e);
+        for (auto& p : params) {
+          int in_idx = GetInputIndex(p.first);
+          if (in_idx < 0) continue;
+          if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
+            data_entry_[eid].CopyFrom(p.second);
+            // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
+          }
+        }
+      }
+      op_execs_[i]();
+    }
   }
 }
 
