@@ -470,10 +470,13 @@ void GraphExecutor::SetupStorage() {
       for (int64_t sz : attrs_.shape[i]) {
         size *= static_cast<size_t>(sz);
       }
+      // std::cout << t.lanes << std::endl;
+      // t.lanes이 vector 같이 여러개 있는 애들의 개수 여기서는 전부 1
+      // t.bits는 vtype에 저장되어 있는 데이터 타입의 비트 수 - 여기서는 float32이니까 32
       size_t bits = t.bits * t.lanes;
-      std::cout << t.lanes << std::endl;
       ICHECK(bits % 8U == 0U || bits == 1U || bits == 4U);
       int64_t bytes = ((bits + 7U) / 8U) * size;
+      std::cout << pool_entry[sid].shape[0] << std::endl;
       pool_entry[sid].shape[0] = std::max(pool_entry[sid].shape[0], bytes);
       pool_entry[sid].dtype = DLDataType{kDLFloat, 32, 1};
     } else {
@@ -550,10 +553,8 @@ void GraphExecutor::SetupPageTable() {
     const auto& inode = nodes_[i];
 
     if (inode.op_type == "null") {
-      uint32_t eid = this->entry_id(i, 0);
-
+      // uint32_t eid = this->entry_id(i, 0);
       // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
-
       continue;
     }
     if (inode.param.num_inputs > max_input) { max_input = inode.param.num_inputs; }
