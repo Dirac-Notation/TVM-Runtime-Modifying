@@ -84,7 +84,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
 
-      if ( eid < input_nodes_.size() || eid != 0 ){ indexs.push_back(eid); }
+      if ( eid < input_nodes_.size() && eid != 0 ){ indexs.push_back(eid); }
     }
     indexs.push_back(i);
 
