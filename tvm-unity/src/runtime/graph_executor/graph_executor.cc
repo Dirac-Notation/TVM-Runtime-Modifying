@@ -75,6 +75,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
   Map<String, NDArray> params = tvm::runtime::LoadParams(strm);
   for (size_t i = 0; i < op_execs_.size(); ++i) {
     std::vector<size_t> indexs;
+    std::vector<std::string> names;
 
     if (op_execs_[i]) {
       const auto& inode = nodes_[i];
@@ -85,6 +86,7 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           if (in_idx < 0) continue;
           if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
             indexs.push_back(in_idx);
+            names.push_back(p.first);
             // data_entry_[eid].CopyFrom(p.second);
             // std::cout << "entry[" << eid << "]: " << static_cast<void*>(data_entry_[eid]->data) << " / " << std::addressof(data_entry_[eid]) <<std::endl;
           }
@@ -92,6 +94,9 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
       }
       std::cout << inode.name << ": ";
       for (size_t k : indexs) {
+        std::cout << k << " / ";
+      }
+      for (std::string k : names) {
         std::cout << k << " / ";
       }
       std::cout << std::endl;
@@ -125,8 +130,8 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
     lookup_linked_param_ = PackedFunc(
         [this](TVMArgs args, TVMRetValue* rv) { this->DefaultLookupLinkedParam(args, rv); });
   }
-  this->SetupStorage();
-  this->SetupOpExecs();
+  // this->SetupStorage();
+  // this->SetupOpExecs();
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
     std::string& name = nodes_[nid].name;
@@ -420,6 +425,7 @@ void GraphExecutor::DefaultLookupLinkedParam(TVMArgs args, TVMRetValue* rv) {
 }
 
 void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
+  if (indexs.empty()) { return; }
   // Grab saved optimization plan from graph.
   std::cout << "SetupStorage" << std::endl;
 
