@@ -528,6 +528,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
     std::cout << "complete" << std::endl;
   }
 
+  storage_pool_.resize(num_node_entries());
   // Allocate the space.
   for (size_t i : indexs) {
     const auto& pit = pool_entry[i];
@@ -550,8 +551,8 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
         mem_scope = String(pit.scope);
       }
       std::cout << pit.dtype << std::endl;
-      storage_pool_.push_back(MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
-                                  ->Empty(shape, pit.dtype, dev, mem_scope));
+      storage_pool_[i] = MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
+                                  ->Empty(shape, pit.dtype, dev, mem_scope);
     }
   }
 
