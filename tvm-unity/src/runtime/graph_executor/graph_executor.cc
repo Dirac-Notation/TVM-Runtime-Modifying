@@ -690,10 +690,8 @@ void GraphExecutor::SetupStorage() {
     Device dev = cit == devices_.end() ? devices_[0] : *cit;
     if (pit.linked_param.defined()) {
       // 이쪽 실행 안 됨 전부 else
-      std::cout << "1" << std::endl;
       storage_pool_.push_back(pit.linked_param);
     } else {
-      std::cout << "2" << std::endl;
       std::vector<int64_t> shape = pit.shape;
       if (shape.size() == 1) {
         shape[0] = (shape[0] + 3) / 4;
