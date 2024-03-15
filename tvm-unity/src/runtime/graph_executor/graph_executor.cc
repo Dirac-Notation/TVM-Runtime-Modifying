@@ -449,6 +449,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   std::vector<PoolEntry> pool_entry;
   // Find the maximum space size.
   for (size_t i : indexs) {
+    std::cout << i << std::endl;
     int storage_id = attrs_.storage_id[i];
     std::string storage_scope = attrs_.storage_scope.empty() ? "" : attrs_.storage_scope[i];
     // Use the fallback device if no device index is available.
