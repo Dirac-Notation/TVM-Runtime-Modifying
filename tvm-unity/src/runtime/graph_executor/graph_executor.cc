@@ -97,14 +97,14 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
     IndexedSetupStorage(indexs);
     IndexedSetupOpExecs(indexs);
 
-    std::cout << inode.name << ": ";
-    for (size_t k : indexs) {
-      std::cout << k << " / ";
-    }
-    for (std::string k : names) {
-      std::cout << k << " / ";
-    }
-    std::cout << std::endl;
+    // std::cout << inode.name << ": ";
+    // for (size_t k : indexs) {
+    //   std::cout << k << " / ";
+    // }
+    // for (std::string k : names) {
+    //   std::cout << k << " / ";
+    // }
+    // std::cout << std::endl;
     // op_execs_[i]();
   }
 }
@@ -444,6 +444,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   for (const std::string& s_type : attrs_.dltype) {
     // 전부 float32
     // std::cout << s_type << std::endl;
+    std::cout << s_type << std::endl;
     vtype.push_back(tvm::runtime::String2DLDataType(s_type));
   }
 
