@@ -92,8 +92,8 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
           // data_entry_[eid].CopyFrom(p.second);
         }
       }
-      indexs.push_back(i);
     }
+    indexs.push_back(i);
 
     IndexedSetupStorage(indexs);
     IndexedSetupOpExecs(indexs);
