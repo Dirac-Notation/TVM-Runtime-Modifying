@@ -83,15 +83,8 @@ void GraphExecutor::LoadRun(dmlc::Stream* strm) {
 
     for (const auto& e : inode.inputs) {
       uint32_t eid = this->entry_id(e);
-      for (auto& p : params) {
-        size_t in_idx = GetInputIndex(p.first);
-        if (in_idx < 0) continue;
-        if (eid == this->entry_id(input_nodes_[in_idx], 0)) {
-          indexs.push_back(in_idx);
-          names.push_back(p.first);
-          // data_entry_[eid].CopyFrom(p.second);
-        }
-      }
+
+      indexs.push_back(eid);
     }
     indexs.push_back(i);
 
