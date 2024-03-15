@@ -554,7 +554,7 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
   data_alignment_.resize(num_node_entries());
   // sid_to_eid has a size of storage_id's size, which is the size of storage_pool_.
   sid_to_eid_.resize(storage_pool_.size());
-  for (size_t i = 0; i < data_entry_.size(); ++i) {
+  for (size_t i : indexs) {
     int storage_id = attrs_.storage_id[i];
     // Update "storage_id -> entry_id" pair.
     sid_to_eid_[storage_id].push_back(i);
