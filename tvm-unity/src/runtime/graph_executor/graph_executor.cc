@@ -132,6 +132,8 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
   }
   // this->SetupStorage();
   // this->SetupOpExecs();
+  std::vector<size_t> indexs = {0};
+  IndexedSetupStorage(indexs);
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
     std::string& name = nodes_[nid].name;
@@ -222,10 +224,6 @@ int GraphExecutor::GetOutputIndex(const std::string& name) {
  */
 void GraphExecutor::SetInput(int index, DLTensor* data_in) {
   std::cout << "SetInput" << std::endl;
-  
-  std::vector<size_t> indexs = {(size_t)index};
-
-  IndexedSetupStorage(indexs);
 
   ICHECK_LT(static_cast<size_t>(index), input_nodes_.size());
   uint32_t eid = this->entry_id(input_nodes_[index], 0);
