@@ -521,6 +521,53 @@ void GraphExecutor::IndexedSetupStorage(std::vector<size_t> indexs) {
       pool_entry[sid].dtype = t;
     }
   }
+
+  // Allocate the space.
+  for (const auto& pit : pool_entry) {
+    // This for loop is very fast since there are usually only a couple of
+    // devices available on the same hardware.
+    const auto& cit = std::find_if(devices_.begin(), devices_.end(), [&pit](const Device& d) {
+      return pit.device_type == static_cast<int>(d.device_type);
+    });
+    Device dev = cit == devices_.end() ? devices_[0] : *cit;
+    if (pit.linked_param.defined()) {
+      // 이쪽 실행 안 됨 전부 else
+      storage_pool_.push_back(pit.linked_param);
+    } else {
+      std::vector<int64_t> shape = pit.shape;
+      if (shape.size() == 1) {
+        shape[0] = (shape[0] + 3) / 4;
+      }
+      Optional<String> mem_scope;
+      if (!pit.scope.empty()) {
+        mem_scope = String(pit.scope);
+      }
+      storage_pool_.push_back(MemoryManager::GetOrCreateAllocator(dev, AllocatorType::kNaive)
+                                  ->Empty(shape, pit.dtype, dev, mem_scope));
+    }
+  }
+
+  // Assign the pooled entries. A unified memory pool is used to simplifiy
+  // memory assignment for each node entry. The allocated memory on each device
+  // is mapped to this pool.
+  data_entry_.resize(num_node_entries());
+  data_alignment_.resize(num_node_entries());
+  // sid_to_eid has a size of storage_id's size, which is the size of storage_pool_.
+  sid_to_eid_.resize(storage_pool_.size());
+  for (size_t i = 0; i < data_entry_.size(); ++i) {
+    int storage_id = attrs_.storage_id[i];
+    // Update "storage_id -> entry_id" pair.
+    sid_to_eid_[storage_id].push_back(i);
+
+    ICHECK_LT(static_cast<size_t>(storage_id), storage_pool_.size());
+    // storage_pool_[storage_id] -> NDArray, CreateView -> Create a NDArray that shares the data memory with the current one
+    // 여기까지는 data_entry_에 할당 안 됨, storage_pool_이랑 data의 주소가 같다
+    data_entry_[i] = storage_pool_[storage_id].CreateView(attrs_.shape[i], vtype[i]);
+    // std::cout << "entry[" << i << "]: " << static_cast<void*>(data_entry_[i]->data) << " / " << static_cast<void*>(storage_pool_[storage_id]->data) << std::endl;
+
+    const DLTensor* tmp = data_entry_[i].operator->();
+    data_alignment_[i] = details::GetDataAlignment(*tmp);
+  }
 }
 
 void GraphExecutor::SetupStorage() {
@@ -684,6 +731,8 @@ void GraphExecutor::SetupPageTable() {
 }
 
 void GraphExecutor::IndexedSetupOpExecs(std::vector<size_t> indexs) {
+  if (indexs.empty()) { return; }
+
   std::cout << "SetupOpExecs" << std::endl;
 
   op_execs_.resize(this->GetNumOfNodes());
