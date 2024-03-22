@@ -77,7 +77,7 @@ print("load data, params")
 module.set_input(0, data)
 print("success data")
 
-mode = False
+mode = True
 
 if mode:
     # run

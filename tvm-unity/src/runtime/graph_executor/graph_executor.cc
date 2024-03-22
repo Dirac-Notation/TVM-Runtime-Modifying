@@ -138,11 +138,11 @@ void GraphExecutor::Init(const std::string& graph_json, tvm::runtime::Module mod
     lookup_linked_param_ = PackedFunc(
         [this](TVMArgs args, TVMRetValue* rv) { this->DefaultLookupLinkedParam(args, rv); });
   }
-  this->SetupStorage();
-  this->SetupOpExecs();
-  // std::vector<size_t> indexs = {0, 1};
-  // IndexedSetupStorage(indexs);
-  // IndexedSetupOpExecs(indexs);
+  // this->SetupStorage();
+  // this->SetupOpExecs();
+  std::vector<size_t> indexs = {0, 1};
+  IndexedSetupStorage(indexs);
+  IndexedSetupOpExecs(indexs);
   for (size_t i = 0; i < input_nodes_.size(); i++) {
     const uint32_t nid = input_nodes_[i];
     std::string& name = nodes_[nid].name;
